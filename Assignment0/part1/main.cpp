@@ -17,7 +17,7 @@ int main()
   int i;
 
   // max number of loops to look for the peak point
-  int maxTries = 10;
+  int maxTries = 200;
   // initalize srand
   srand (time (NULL));
 
@@ -63,7 +63,7 @@ double checkNeighbors(int (&vec)[100]){
     fitness = eval(vec);
 
     // if the fitness is more than the current max
-    if (fitness > maxFitness){
+    if (fitness >= maxFitness){
       // set it as the new max
       maxFitness = fitness;
 
