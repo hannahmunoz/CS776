@@ -17,7 +17,7 @@ int main()
   int i;
 
   // max number of loops to look for the peak point
-  int maxTries = 200;
+  int maxTries = 5000;
   // initalize srand
   srand (time (NULL));
 
@@ -33,12 +33,19 @@ for (int j = 0; j < maxTries; j++){
   double newfitness = checkNeighbors (vec);
 
   // if the new fitness is greater than the old one
-  if (newfitness > fitness){
+  if (newfitness >= fitness){
+    if (newfitness == fitness){
+      for(i = 0; i < 100; i++){
+        vec[i] = rand()%2;
+      }
+    }
+    else if (newfitness > fitness){
     // reset number of times to look for a new hill
     j = 0;
     // and set it as the new fitness
     fitness = newfitness;
     memcpy(vecMax, vec, sizeof(vecMax));
+  }
   }
 }
   cout << "fitness = " << fitness << endl;
@@ -64,6 +71,7 @@ double checkNeighbors(int (&vec)[100]){
 
     // if the fitness is more than the current max
     if (fitness >= maxFitness){
+
       // set it as the new max
       maxFitness = fitness;
 
