@@ -17,7 +17,7 @@ int main()
   int i;
 
   // max number of loops to look for the peak point
-  int maxTries = 100000000;
+  int maxTries = 1000;
   // initalize srand
   srand (time (NULL));
 
