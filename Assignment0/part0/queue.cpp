@@ -64,7 +64,7 @@ void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &ends
     for (int m = 0; m <= size; m++){
         state endCheck;
         setData (endCheck, temp.left[0] - c, temp.left[1] - m, temp.right[0] + c, temp.right[1] + m, 1);
-        if (checkArithmatic (temp.left[0], temp.right[0], c, temp.left [1], temp.right[1], m,size) && isEndstate(endCheck, endstate)){
+        if (checkArithmatic (temp.left[0], temp.right[0], c, temp.left [1], temp.right[1], m,size) && isEndstate(endCheck, endstate) && isEndstate (endCheck, p)){
 cout <<  c  << " " << m << endl;
           if (isEaten (temp.left[0], c, temp.left[1], m, 0) && isEaten (temp.right [0], c, temp.right [1], m, 1)){
             //cout << "left eat: "<<  c  << " " << m << endl;
@@ -113,7 +113,7 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
       for (int m = 0; m <= size; m++){
         state endCheck;
         setData (endCheck,temp.left[0] + c,temp.left[1] + m, temp.right[0] - c, temp.right[1] - m, 0);
-        if (checkArithmatic (temp.right[0], temp.left[0], c, temp.right [1], temp.left[1], m,size) && isEndstate(endCheck, endstate)){
+        if (checkArithmatic (temp.right[0], temp.left[0], c, temp.right [1], temp.left[1], m,size) && isEndstate(endCheck, endstate) && isEndstate (endCheck, p)){
       //     cout <<  c  << " " << m << endl;
           if (isEaten (temp.left[0], c, temp.left[1], m, 1) && isEaten (temp.right [0], c, temp.right [1], m, 0)){
             //cout  << "right eat: "<<  c  << " " << m << endl;
@@ -146,6 +146,7 @@ cout << "endstate made" <<endl;
   endstate.push_back (temp);
   }
 }
+
 
 bool CheckForLoops (int lastc, int c, int lastm, int m ){
   if (lastc == c && lastm == m){
