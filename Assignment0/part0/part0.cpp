@@ -60,8 +60,8 @@ void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &ends
   //cout << "left:  " << temp.left[0] << " " << temp.left [1] <<endl;
   if (solution != true){
   //docked on left
-  for (int c = 0; c <= size; c++){
-    for (int m = 0; m <= size; m++){
+  for (int c = size; c >= 0; c--){
+    for (int m = size; m >= 0; m--){
         state endCheck;
         setData (endCheck, temp.left[0] - c, temp.left[1] - m, temp.right[0] + c, temp.right[1] + m, 1);
         if (checkArithmatic (temp.left[0], temp.right[0], c, temp.left [1], temp.right[1], m,size) && isEndstate(endCheck, endstate) && isEndstate (endCheck, p)){
@@ -110,8 +110,8 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
   }
   else{
   //docked on right
-    for (int c = 0; c <= size; c++){
-      for (int m = 0; m <= size; m++){
+    for (int c = size; c >= 0; c--){
+      for (int m = size; m >= 0; m--){
         state endCheck;
         setData (endCheck,temp.left[0] + c,temp.left[1] + m, temp.right[0] - c, temp.right[1] - m, 0);
         if (checkArithmatic (temp.right[0], temp.left[0], c, temp.right [1], temp.left[1], m,size) && isEndstate(endCheck, endstate) && isEndstate (endCheck, p)){
