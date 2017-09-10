@@ -57,7 +57,7 @@ int main(int argc, char const *argv[]) {
 
 void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution, int size){
   state temp = p.back();
-  cout << "left: " << temp.left[0] << " " << temp.left [1] <<endl;
+  cout << "left:  " << temp.left[0] << " " << temp.left [1] <<endl;
   if (solution != true){
   //docked on left
   for (int c = 0; c <= size; c++){
@@ -65,14 +65,14 @@ void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &ends
         state endCheck;
         setData (endCheck, temp.left[0] - c, temp.left[1] - m, temp.right[0] + c, temp.right[1] + m, 1);
         if (checkArithmatic (temp.left[0], temp.right[0], c, temp.left [1], temp.right[1], m,size) && isEndstate(endCheck, endstate) && isEndstate (endCheck, p)){
-cout <<  c  << " " << m << endl;
+          //cout <<  c  << " " << m << endl;
           if (isEaten (temp.left[0], c, temp.left[1], m, 0) && isEaten (temp.right [0], c, temp.right [1], m, 1)){
             //cout << "left eat: "<<  c  << " " << m << endl;
             //cout << temp.left[0] - c  << " " << temp.left[1] - m << endl;
             //cout << lastRight.right[0] << " "  << nextState.right[0] << " "  <<  lastRight.right[1] << " "  << nextState.right[1] <<endl;
             if (CheckForLoops (lastRight.right[0], temp.right[0] + c, lastRight.right [1], temp.right[1] + m )){
-              char t;
-              cin >> t;
+              //char t;
+              //cin >> t;
             //  cout <<  c  << " " << m << endl;
               state nextState;
               state tempLastState;
@@ -84,15 +84,14 @@ cout <<  c  << " " << m << endl;
               if (p.size() > 1){
                 p.pop_back();
               }
-              cout << "returned" <<endl;
+              //cout << "returned" <<endl;
               setData (lastLeft,tempLastState.left[0],tempLastState.left[1], tempLastState.right[0], tempLastState.right[1], 1);
             }
           }
         }
       }
-      cout <<endl;
     }
-    cout << "endstate made" <<endl;
+  //  cout << "endstate made" <<endl;
 
     endstate.push_back (temp);
 
@@ -105,6 +104,7 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
   cout << "right: " << temp.right[0] << " " << temp.right [1] <<endl;
   //check for end condition
   if (temp.right[0]  == 3  && temp.right [1] == 3){
+    cout << "solved" << endl;
     solution = true;
   }
   else{
@@ -119,8 +119,8 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
             //cout  << "right eat: "<<  c  << " " << m << endl;
             //cout << "loop:" << lastLeft.left[0] << " " << temp.left[0] + c << " "  << lastLeft.left [1] << " " << temp.left[1] + m << endl;
             if (CheckForLoops (lastLeft.left[0], temp.left[0] + c, lastLeft.left [1], temp.left[1] + m )){
-              char t;
-              cin >> t;
+              //char t;
+              //cin >> t;
 //              cout <<  c  << " " << m << endl;
 
               state nextState;
@@ -133,16 +133,15 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
               if (size > 1){
                   p.pop_back();
               }
-              cout << "returned" << endl;
+            //  cout << "returned" << endl;
               setData (lastRight,tempLastState.left[0],tempLastState.left[1], tempLastState.right[0], tempLastState.right[1], 0);
             }
           }
         }
       }
-    cout <<endl;
     }
-//  cout <<endl;
-cout << "endstate made" <<endl;
+  //  cout <<endl;
+  //cout << "endstate made" <<endl;
   endstate.push_back (temp);
   }
 }
@@ -183,23 +182,23 @@ bool isEaten (int lc, int c, int lm, int m, bool add){
 bool checkArithmatic (int lc, int rc, int c, int lm, int rm, int m, int size){
   bool check = true;
     if (lc - c < 0 && lm - m < 0){
-      cout << "77 false "  << c << " " << m <<endl;
+    //  cout << "77 false "  << c << " " << m <<endl;
       check = false;
     }
     else if (c + m <= 0){
-      cout << "181 false " << c << " " << m <<endl;
+      //cout << "181 false " << c << " " << m <<endl;
       check = false;
     }
     else if (c + m > size){
-      cout << "185 false " << c << " " << m <<endl;
+      //cout << "185 false " << c << " " << m <<endl;
       check = false;
     }
     else if (rc + c > 3){
-      cout << "189 false " << c << " " << m <<endl;
+    //  cout << "189 false " << c << " " << m <<endl;
       check = false;
     }
     else if (rm + m > 3){
-      cout << "193 false " << c << " " << m <<endl;
+    //  cout << "193 false " << c << " " << m <<endl;
       check = false;
     }
   //  cout << lm << " " << m << " " << lc << " " << c << endl;
@@ -211,7 +210,7 @@ bool isEndstate (state temp, list <state> endstate){
     if (temp.left [0] == it->left[0] && temp.left [1] == it->left[1]
         && temp.right [0] == it->right[0] && temp.right [1] == it->right[1]
         && temp.boat == it->boat){
-          cout << "endstate" << temp.left [0] << " " << temp.left [1] << "    " <<temp.right [0] << " " << temp.right [1] <<endl;
+          //cout << "endstate" << temp.left [0] << " " << temp.left [1] << "    " <<temp.right [0] << " " << temp.right [1] <<endl;
           return false;
         }
   }
