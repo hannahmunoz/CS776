@@ -54,7 +54,7 @@ int main(int argc, char const *argv[]) {
 
 void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution, int size){
   state temp = p.back();
-  //cout << "node: " << temp.left[0] << " " << temp.left [1] <<endl;
+  cout << "left: " << temp.left[0] << " " << temp.left [1] <<endl;
   bool del = true;
  if (solution != true){
   //docked on left
@@ -65,7 +65,7 @@ void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &ends
           &&  c + m > 0
           && c + m <= size
           && !isEndstate(temp, endstate)){
-
+            cout << "e";
           bool check = true;
           if ((temp.left[0] - c > temp.left [1] - m && temp.left [1] - m != 0 )
               || (temp.right[0] + c > temp.right [1] + m && temp.right [1] - m != 0)){
@@ -134,14 +134,12 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
         setData (tempLastState, lastRight.left[0], lastRight.left[1], lastRight.right[0], lastRight.right[1], 0);
         setData (nextState,temp.left[0] + c,temp.left[1] + m, temp.right[0] - c, temp.right[1] - m, 0);
         if (lastRight.left[0] != nextState.left[0] && lastRight.left[1] != nextState.left[1]){
-          cout <<  c  << " " << m << endl;
-
           setData (lastRight,temp.left[0] + c,temp.left[1] + m, temp.right[0] - c, temp.right[1] - m, 0);
-          del = false;
           p.push_back (nextState);
+          cout <<  c  << " " << m << endl;
           left(lastLeft, lastRight, p, endstate, solution, size);
           setData (lastRight,tempLastState.left[0],tempLastState.left[1], tempLastState.right[0], tempLastState.right[1], 0);
-
+          del = false;
         }
       }
       }
