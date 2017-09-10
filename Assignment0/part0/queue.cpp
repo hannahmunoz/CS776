@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <list>
+#include <string>
 #include <iterator>
 using namespace std;
 
@@ -11,8 +12,8 @@ struct state{
 };
 
 void setData( state &s, int lc, int lm, int rc, int rm, bool boat);
-void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate);
-void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate);
+void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution);
+void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution);
 bool isEndstate (state temp, list <state> endstate);
 void print (list <state> p);
 
@@ -32,26 +33,37 @@ int main(int argc, char const *argv[]) {
     state lastRight;
     setData(lastRight, 0, 0, 0, 0, 1);
 
-    left(lastLeft, lastRight, p, endstate);
+    left(lastLeft, lastRight, p, endstate, solution);
 
 
     solution = true;
+
   }
 
   print(p);
-
+  cout << "endstate" <<endl;
+  print (endstate);
   /* code */
   return 0;
 }
 
-void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate){
+void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution){
   state temp = p.back();
   bool del = true;
-
+ if (solution != true){
   //docked on left
   for (int c = 0; c < 3; c++){
     for (int m = 0; m < 3; m++){
-        if (temp.left[0] - c > 0 && temp.left [1] - m > 0 && !isEndstate(temp, endstate)){
+        if (temp.left[0] - c >= 0 && temp.left [1] - m >= 0
+          &&  c + m > 0
+          && !isEndstate(temp, endstate)){
+          bool check = true;
+          if (temp.left[1] > 0){
+            if (temp.left[0] - c > temp.left [1] - m){
+              check = false;
+            }
+          }
+          if (check){
           //cout << temp.left[0] - c  << " " << temp.left[1] - m << endl;
           state nextState;
           setData (nextState,temp.left[0] - c,temp.left[1] - m, temp.right[0] + c, temp.right[1] + m, 1);
@@ -59,8 +71,9 @@ void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &ends
             setData (lastLeft,temp.left[0] - c,temp.left[1] - m, temp.right[0] + c, temp.right[1] + m, 1);
             p.push_back (nextState);
             del = false;
-            right(lastLeft, lastRight, p, endstate);
+            right(lastLeft, lastRight, p, endstate, solution);
           }
+        }
         }
       }
     }
@@ -68,24 +81,43 @@ void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &ends
       endstate.push_back (temp);
       p.pop_back();
     }
+  }
 }
 
-void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate){
+void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution){
   state temp = p.back();
   bool del = true;
+
+  //check for end condition
+  if (temp.right[0]  == 3  && temp.right [1] == 3){
+    solution = true;
+  }
+  else{
 
   //docked on right
   for (int c = 0; c < 3; c++){
     for (int m = 0; m < 3; m++){
-      if (temp.right[0] - c > 0 && temp.right [1] - m > 0 && !isEndstate(temp, endstate)){
+      if (temp.right[0] - c >= 0 && temp.right [1] - m >= 0
+         && c +  m > 0
+         && !isEndstate(temp, endstate)){
+
+        bool check = true;
+        if (temp.right[1] > 0){
+          if (temp.right[0] - c > temp.right [1] - m){
+            check = false;
+          }
+        }
+        if (check){
+        //cout << temp.right[0] - c  << " " << temp.right[1] - m << endl;
         state nextState;
         setData (nextState,temp.left[0] + c,temp.left[1] + m, temp.right[0] - c, temp.right[1] - m, 0);
         if (lastRight.left[0] != nextState.left[0] && lastRight.left[1] != nextState.left[1]){
           setData (lastRight,temp.left[0] + c,temp.left[1] + m, temp.right[0] - c, temp.right[1] - m, 0);
           del = false;
           p.push_back (nextState);
-          left(lastLeft, lastRight, p, endstate);
+          left(lastLeft, lastRight, p, endstate, solution);
         }
+      }
       }
     }
   }
@@ -93,6 +125,7 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
     endstate.push_back (temp);
     p.pop_back();
   }
+}
 }
 
 bool isEndstate (state temp, list <state> endstate){
@@ -114,9 +147,16 @@ void setData( state &s, int lc, int lm, int rc, int rm, bool b){
 }
 
 void print (list <state> p){
+  string dir;
   while (!p.empty()){
     state temp = p.front();
-    cout << temp.left[0] << " " << temp.left[1] << "      " << temp.right[0] << " " << temp.right[1] << " " << endl;
+    if (temp.boat == 0){
+      dir = "left:  ";
+    }
+    else{
+      dir = "right: ";
+    }
+    cout << dir << temp.left[0] << " " << temp.left[1] << "      " << temp.right[0] << " " << temp.right[1] << " " << endl;
     p.pop_front();
   }
 }
