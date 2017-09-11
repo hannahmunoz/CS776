@@ -14,9 +14,8 @@ struct state{
 void setData( state &s, int lc, int lm, int rc, int rm, bool boat);
 bool checkArithmatic (int lc, int rc, int c, int lr, int rm, int r, int size);
 bool isEaten (int lc, int c, int lm, int m, bool add);
-bool CheckForLoops (int lastc, int c, int lastm, int m );
-void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution, int size);
-void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution, int size);
+void left(list <state> &p, list <state> &endstate, bool &solution, int size);
+void right(list <state> &p, list <state> &endstate, bool &solution, int size);
 bool isEndstate (state temp, list <state> endstate);
 void print (list <state> p);
 
@@ -37,14 +36,10 @@ int main(int argc, char const *argv[]) {
     int size;
     sscanf (argv[1],"%d",&size);
 
-   // set first state
-      state lastLeft;
-      setData(lastLeft, 3, 3, 0, 0, 0);
-      state lastRight;
-      setData(lastRight, 0, 0, 0, 0, 1);
+
 
  // start on the left
-      left(lastLeft, lastRight, p, endstate, solution, size);
+      left( p, endstate, solution, size);
   }
   else{
     cout << "please insert boat size" << endl;
@@ -55,7 +50,7 @@ int main(int argc, char const *argv[]) {
 
 
 // deals with the boat on the left shore
-void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution, int size){
+void left(list <state> &p, list <state> &endstate, bool &solution, int size){
  // get the state
   state temp = p.back();
 
@@ -71,28 +66,21 @@ void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &ends
         if (checkArithmatic (temp.left[0], temp.right[0], c, temp.left [1], temp.right[1], m,size) && isEndstate(endCheck, endstate) && isEndstate (endCheck, p)){
           //check if cannibals will eat if this state occurs
           if (isEaten (temp.left[0], c, temp.left[1], m, 0) && isEaten (temp.right [0], c, temp.right [1], m, 1)){
-	   // check if this is a loop
-            if (CheckForLoops (lastRight.right[0], temp.right[0] + c, lastRight.right [1], temp.right[1] + m )){
+
 	     // set the last known state
               state nextState;
-              state tempLastState;
-              setData (tempLastState, lastLeft.left[0], lastLeft.left[1], lastLeft.right[0], lastLeft.right[1], 1);
               setData (nextState, temp.left[0] - c, temp.left[1] - m, temp.right[0] + c, temp.right[1] + m, 1);
-              setData (lastLeft, temp.left[0], temp.left[1], temp.right[0], temp.right[1], 1);
 
 	      // push on the stack
               p.push_back (nextState);
-	
 	     // move right
-              right(lastLeft, lastRight, p, endstate, solution, size);
+              right( p, endstate, solution, size);
 
 	     // nothing found that direction, pop state from stack
               if (p.size() > 1){
                 p.pop_back();
               }
-	
-              setData (lastLeft,tempLastState.left[0],tempLastState.left[1], tempLastState.right[0], tempLastState.right[1], 1);
-            }
+            
           }
         }
       }
@@ -103,7 +91,7 @@ void left(state &lastLeft, state &lastRight, list <state> &p, list <state> &ends
   }
 }
 
-void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &endstate, bool &solution, int size){
+void right( list <state> &p, list <state> &endstate, bool &solution, int size){
   // get last state
   state temp = p.back();
 
@@ -126,23 +114,17 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
         if (checkArithmatic (temp.right[0], temp.left[0], c, temp.right [1], temp.left[1], m,size) && isEndstate(endCheck, endstate) && isEndstate (endCheck, p)){
 	// check if cannibals will eat
           if (isEaten (temp.left[0], c, temp.left[1], m, 1) && isEaten (temp.right [0], c, temp.right [1], m, 0)){
-	   //check for loop
-            if (CheckForLoops (lastLeft.left[0], temp.left[0] + c, lastLeft.left [1], temp.left[1] + m )){
               state nextState;
-              state tempLastState;
-              setData (tempLastState, lastRight.left[0], lastRight.left[1], lastRight.right[0], lastRight.right[1], 0);
               setData (nextState,temp.left[0] + c,temp.left[1] + m, temp.right[0] - c, temp.right[1] - m, 0);
-              setData (lastRight, temp.left[0], temp.left[1], temp.right[0], temp.right[1], 0);
 	     // push state
               p.push_back (nextState);
 	     // go left
-              left(lastLeft, lastRight, p, endstate, solution, size);
+              left( p, endstate, solution, size);
 	    // nothing found, pop off stack
               if (size > 1){
                   p.pop_back();
               }
-              setData (lastRight,tempLastState.left[0],tempLastState.left[1], tempLastState.right[0], tempLastState.right[1], 0);
-            }
+        
           }
         }
       }
@@ -152,13 +134,6 @@ void right(state &lastLeft, state &lastRight, list <state> &p, list <state> &end
   }
 }
 
-// check if entering last state
-bool CheckForLoops (int lastc, int c, int lastm, int m ){
-  if (lastc == c && lastm == m){
-    return false;
-  }
-  return true;
-}
 
 // check if cannibals will eat missonary
 bool isEaten (int lc, int c, int lm, int m, bool add){
