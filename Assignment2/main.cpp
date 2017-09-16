@@ -7,14 +7,15 @@
 
 using namespace std;
 
-static const int POOL_SIZE = 100;
+static const int POOL_SIZE = 1000;
 static const int LENGTH = 150;
 
 double eval(int *vec);
 void fillPool (int p[POOL_SIZE][LENGTH ]);
+double populationFitness (int p[POOL_SIZE ][LENGTH]);
 void fillVector(int (&vec)[LENGTH ]);
 void roulette(int p[POOL_SIZE][LENGTH], int (&vec)[LENGTH], int &location);
-void checkFitness (double &b, int (&bv)[LENGTH],  int (&cv)[LENGTH]);
+double checkFitness (double &b, int (&bv)[LENGTH],  int (&cv)[LENGTH]);
 void merge (int (&v1)[LENGTH],  int (&v2)[LENGTH] );
 bool mutate ();
 void print (int (&bvec)[LENGTH]);
@@ -25,22 +26,29 @@ int main()
   double bestFitness = 0;
   int bvec[LENGTH];
   int pool [POOL_SIZE ][LENGTH];
-  fillPool (pool);
+
 
   int vec1[LENGTH];
   int vec2[LENGTH];
   int loc1;
   int loc2;
 
-  for (int iter = 0; iter < 10000; iter++){
-    roulette (pool, vec1, loc1);
-    roulette (pool, vec2, loc2);
-    checkFitness (bestFitness, bvec, vec1);
-    checkFitness (bestFitness, bvec, vec2);
-    merge (vec1, vec2);
-    memcpy(pool [loc1], vec1, sizeof(pool [loc1]));
-    memcpy(pool [loc2], vec2, sizeof(pool [loc2]));
-  }
+    fillPool (pool);
+    cout << populationFitness (pool)/POOL_SIZE << endl;
+    for (int iter = 0; iter < 100000; iter++){
+      roulette (pool, vec1, loc1);
+      roulette (pool, vec2, loc2);
+      int t1 = checkFitness (bestFitness, bvec, vec1);
+      int t2 = checkFitness (bestFitness, bvec, vec2);
+      merge (vec1, vec2);
+      if (checkFitness (bestFitness, bvec, vec1) > t1){
+        memcpy(pool [loc1], vec1, sizeof(pool [loc1]));
+      }
+      if (checkFitness (bestFitness, bvec, vec2) > t2){
+        memcpy(pool [loc2], vec2, sizeof(pool [loc2]));
+      }
+    }
+      cout << populationFitness (pool)/POOL_SIZE << endl << endl;
 
   cout << bestFitness << endl;
   print (bvec);
@@ -54,6 +62,14 @@ void fillPool (int p[POOL_SIZE ][LENGTH]){
   }
 }
 
+double populationFitness (int p[POOL_SIZE][LENGTH]){
+  double sum = 0;
+  for (int i = 0; i < POOL_SIZE ; i++){
+    sum +=  eval (p[i]);
+  }
+  return sum;
+}
+
 void fillVector(int (&vec)[LENGTH]){
   for(int i = 0; i < LENGTH; i++){
     vec[i] = rand()%2;
@@ -61,17 +77,18 @@ void fillVector(int (&vec)[LENGTH]){
 }
 
 void roulette(int p[POOL_SIZE ][LENGTH], int (&vec)[LENGTH], int &location){
-  location = rand()%POOL_SIZE ;
+  location = rand()%POOL_SIZE;
   memcpy(vec, p[location], sizeof(vec));
 }
 
-void checkFitness (double &b, int (&bv)[LENGTH], int (&cv)[LENGTH]){
+double checkFitness (double &b, int (&bv)[LENGTH], int (&cv)[LENGTH]){
   double currentFitness = eval (cv);
-  //cout << "fitness " << currentFitness <<endl;
+//  cout << "fitness " << currentFitness <<endl;
   if (currentFitness > b){
     b = currentFitness;
     memcpy(bv, cv, sizeof(bv));
   }
+  return currentFitness;
 }
 
 void merge (int (&v1)[LENGTH],  int (&v2)[LENGTH]){
