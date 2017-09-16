@@ -7,17 +7,17 @@
 
 using namespace std;
 
-static const int POOL_SIZE = 1000;
-static const int LENGTH = 150;
+static const int POOL_SIZE = 10000;
+static const int LENGTH = 100;
 
 double eval(int *vec);
 void fillPool (int p[POOL_SIZE][LENGTH ]);
 double populationFitness (int p[POOL_SIZE ][LENGTH]);
 void fillVector(int (&vec)[LENGTH ]);
 void roulette(int p[POOL_SIZE][LENGTH], int (&vec)[LENGTH], int &location);
-double checkFitness (double &b, int (&bv)[LENGTH],  int (&cv)[LENGTH]);
+double checkFitness (double &b, int (&bv)[LENGTH],  int cv[LENGTH]);
 void merge (int (&v1)[LENGTH],  int (&v2)[LENGTH] );
-bool mutate ();
+bool mutate (int v);
 void print (int (&bvec)[LENGTH]);
 
 int main()
@@ -34,10 +34,13 @@ int main()
   int loc2;
 
     fillPool (pool);
+    populationFitness (pool);
+    float t = populationFitness (pool)/POOL_SIZE;
     cout << populationFitness (pool)/POOL_SIZE << endl;
-    for (int iter = 0; iter < 100000; iter++){
-      roulette (pool, vec1, loc1);
-      roulette (pool, vec2, loc2);
+    memcpy( vec1, pool [0], sizeof(vec1));
+    memcpy( vec2, pool [POOL_SIZE-1], sizeof(vec2));
+
+    for (int iter = 0; iter < 1000000; iter++){
       int t1 = checkFitness (bestFitness, bvec, vec1);
       int t2 = checkFitness (bestFitness, bvec, vec2);
       merge (vec1, vec2);
@@ -47,19 +50,37 @@ int main()
       if (checkFitness (bestFitness, bvec, vec2) > t2){
         memcpy(pool [loc2], vec2, sizeof(pool [loc2]));
       }
+      roulette (pool, vec1, loc1);
+      roulette (pool, vec2, loc2);
+    /*  if (float (populationFitness (pool)/POOL_SIZE) > t){
+        cout << iter << ": "<< populationFitness (pool)/POOL_SIZE << endl << endl;
+        t = populationFitness (pool)/POOL_SIZE;
+      }*/
     }
-      cout << populationFitness (pool)/POOL_SIZE << endl << endl;
+   cout << populationFitness (pool)/POOL_SIZE << endl << endl;
 
   cout << bestFitness << endl;
   print (bvec);
 }
 
 void fillPool (int p[POOL_SIZE ][LENGTH]){
-  for (int i = 0; i < POOL_SIZE ; i++){
+  int t [LENGTH];
+  for(int i = 0; i < LENGTH; i++){
+    t[i] = 0;
+  }
+  memcpy(p[0], t, sizeof(p[0]));
+
+  for (int i = 1; i < POOL_SIZE-1; i++){
     int vec[LENGTH];
     fillVector (vec);
     memcpy(p[i], vec, sizeof(p[i]));
   }
+
+  for(int i = 0; i < LENGTH; i++){
+    t[i] = 1;
+  }
+  memcpy(p[POOL_SIZE-1], t, sizeof(p[POOL_SIZE-1]));
+
 }
 
 double populationFitness (int p[POOL_SIZE][LENGTH]){
@@ -81,7 +102,7 @@ void roulette(int p[POOL_SIZE ][LENGTH], int (&vec)[LENGTH], int &location){
   memcpy(vec, p[location], sizeof(vec));
 }
 
-double checkFitness (double &b, int (&bv)[LENGTH], int (&cv)[LENGTH]){
+double checkFitness (double &b, int (&bv)[LENGTH], int cv[LENGTH]){
   double currentFitness = eval (cv);
 //  cout << "fitness " << currentFitness <<endl;
   if (currentFitness > b){
@@ -95,24 +116,9 @@ void merge (int (&v1)[LENGTH],  int (&v2)[LENGTH]){
   int splitPoint = rand()%LENGTH;
   int temp [LENGTH];
   for (int i = 0; i < splitPoint; i++){
-    if (mutate){
-      temp[i] = 1 - v1[i];
-    }
-    else{
-      temp[i] = v1[i];
-    }
-    if (mutate){
-      v1[i] = 1 - v2[i];
-    }
-    else{
-      v1[i] = v2[i];
-    }
-    if (mutate){
-      v2[i] = 1 - temp[i];
-    }
-    else{
-      v2[i] = temp[i];
-    }
+    temp[i] = mutate (v1[i]);
+    v1[i] = mutate (v2[i]);
+    v2[i] = mutate (temp[i]);
   }
 }
 
@@ -125,10 +131,6 @@ void print (int (&bvec)[LENGTH]){
   }
 }
 
-bool mutate (){
-  int test = rand()%1000;
-  if (test == 1){
-    return true;
-  }
-  return false;
+bool mutate (int v){
+  return (rand()%1000 ? (1-v) : v);
 }
