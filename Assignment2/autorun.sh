@@ -2,8 +2,8 @@
 # assume you are in as1/code
 iter=0
 
-g++ -o fastCPP main.cpp evalCPP.o
-g++ -o slowCPP evalCPP1.o main.cpp
+g++ -std=c++11 -o fastCPP main.cpp evalCPP.o
+g++ -std=c++11 -o slowCPP evalCPP1.o main.cpp
 
 while [ $iter -le 30 ];
   do
