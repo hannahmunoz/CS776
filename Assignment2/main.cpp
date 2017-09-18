@@ -10,86 +10,83 @@ using namespace std;
 
 static const int POOL_SIZE = 450;
 static const int LENGTH = 150;
-static const int ITER_SIZE = 20000;
+static const int ITER_SIZE = 10000000;
+
+
+struct chrom{
+      int vec[LENGTH];
+      int location;
+      double fitness = 0;
+};
 
 double eval(int *vec);
-void fillPool (int p[POOL_SIZE][LENGTH ]);
-double populationFitness (int p[POOL_SIZE ][LENGTH]);
-void fillVector(int (&vec)[LENGTH ]);
-void roulette(int p[POOL_SIZE][LENGTH], int (&vec)[LENGTH], int &location);
-double checkFitness (double &b, int (&bv)[LENGTH],  int cv[LENGTH], int &maxIter, int iter);
-void merge (int (&v1)[LENGTH],  int (&v2)[LENGTH] );
+void fillPool (chrom p[POOL_SIZE]);
+double populationFitness (chrom p[POOL_SIZE]);
+void fillVector(int (&vec)[LENGTH]);
+void roulette(chrom p[POOL_SIZE], chrom &parent);
+void checkFitness (chrom &b, chrom &p, int iter);
+void merge (chrom &p1, chrom &p2);
 bool mutate (int v);
-void print (int (&bvec)[LENGTH], int bf, string filename, int maxIter);
-
-./*struct chrom{
-      int vec1[LENGTH];
-      int location;
-      int fitness;
-}*/
+void print (chrom b, string filename);
 
 int main(int argc, char const *argv[]) {
   if (argc > 1){
     srand (time (NULL));
-    double bestFitness = 0;
-    int bvec[LENGTH];
-    int maxIter;
-    int pool [POOL_SIZE][LENGTH];
-
-    int vec1[LENGTH];
-    int vec2[LENGTH];
-    int loc1;
-    int loc2;
-
+    chrom best;
+    chrom pool [POOL_SIZE];
     fillPool (pool);
-    //populationFitness (pool);
-    //float t = populationFitness (pool)/POOL_SIZE;
-    //cout << populationFitness (pool)/POOL_SIZE << endl;
-    //memcpy( vec1, pool [0], sizeof(vec1));
-    //memcpy( vec2, pool [POOL_SIZE-1], sizeof(vec2));
+
+    cout << populationFitness (pool)/POOL_SIZE << endl;
 
     for (int iter = 0; iter < ITER_SIZE; iter++){
-      roulette (pool, vec1, loc1);
-      roulette (pool, vec2, loc2);
-      int t1 = checkFitness (bestFitness, bvec, vec1, maxIter, iter);
-      int t2 = checkFitness (bestFitness, bvec, vec2, maxIter, iter);
-      merge (vec1, vec2);
-      if (checkFitness (bestFitness, bvec, vec1, maxIter, iter) > t1){
-        memcpy(pool [loc1], vec1, sizeof(pool [loc1]));
+      chrom parent1;
+      chrom parent2;
+      roulette (pool, parent1);
+      roulette (pool, parent2);
+      if (pool[parent1.location].fitness == 0){
+        checkFitness (best, pool[parent1.location], iter);
       }
-      if (checkFitness (bestFitness, bvec, vec2, maxIter, iter) > t2){
-        memcpy(pool [loc2], vec2, sizeof(pool [loc2]));
+      if (pool[parent2.location].fitness == 0){
+        checkFitness (best, pool[parent2.location], iter);
       }
-
-      /*if (float (populationFitness (pool)/POOL_SIZE) > t){
-        cout << iter << ": "<< populationFitness (pool)/POOL_SIZE << endl << endl;
-        t = populationFitness (pool)/POOL_SIZE;
-      }*/
+      merge (parent1, parent2);
+      checkFitness (best, parent1, iter);
+      checkFitness (best, parent2, iter);
+      if (parent1.fitness > pool[parent1.location].fitness){
+        pool [parent1.location] = parent1;
+      }
+      if (parent2.fitness > pool[parent1.location].fitness){
+        pool[parent1.location] = parent1;
+      }
     }
-    // cout << populationFitness (pool)/POOL_SIZE << endl << endl;
 
-  //  cout << bestFitness << endl;
-    print (bvec, bestFitness, argv[1], maxIter);
+    cout << populationFitness (pool)/POOL_SIZE << endl << endl;
+    print (best, argv[1]);
   }else{
     cout << "Please run with a output filename." << endl;
   }
 }
 
-void fillPool (int p[POOL_SIZE ][LENGTH]){
-  int t [LENGTH] = { 1 };
-  memcpy(p[POOL_SIZE-1], t, sizeof(p[POOL_SIZE-1]));
+void fillPool (chrom p[POOL_SIZE ]){
 
   for (int i = 1; i < POOL_SIZE-1; i++){
-    int vec[LENGTH];
-    fillVector (vec);
-    memcpy(p[i], vec, sizeof(p[i]));
+    chrom vec;
+    vec.location = i;
+    fillVector (vec.vec);
+    p[i] = vec;
+  }
+  chrom t;
+  for (int i = 1; i < LENGTH; i++){
+    t.vec[i] =  1;
+    t.location = POOL_SIZE-1;
+    p[POOL_SIZE-1] = t;
   }
 }
 
-double populationFitness (int p[POOL_SIZE][LENGTH]){
+double populationFitness (chrom p[POOL_SIZE]){
   double sum = 0;
   for (int i = 0; i < POOL_SIZE ; i++){
-    sum +=  eval (p[i]);
+    sum +=  eval (p[i].vec);
   }
   return sum;
 }
@@ -100,42 +97,39 @@ void fillVector(int (&vec)[LENGTH]){
   }
 }
 
-void roulette(int p[POOL_SIZE ][LENGTH], int (&vec)[LENGTH], int &location){
-  location = rand()%POOL_SIZE;
-  memcpy(vec, p[location], sizeof(vec));
+void roulette(chrom p[POOL_SIZE], chrom &parent){
+  parent = p[rand()%POOL_SIZE];
 }
 
-double checkFitness (double &b, int (&bv)[LENGTH], int cv[LENGTH], int &maxIter, int iter){
-  double currentFitness = eval (cv);
-//  cout << "fitness " << currentFitness <<endl;
-  if (currentFitness > b){
-    b = currentFitness;
-    memcpy(bv, cv, sizeof(bv));
-    maxIter = iter;
+void checkFitness (chrom &b, chrom &p, int iter){
+  p.fitness = eval (p.vec);
+
+  if (p.fitness > b.fitness){
+    b = p;
+    b.location = iter;
   }
-  return currentFitness;
 }
 
-void merge (int (&v1)[LENGTH],  int (&v2)[LENGTH]){
+void merge (chrom &p1, chrom &p2){
   int splitPoint = rand()%LENGTH;
   int temp [LENGTH];
   for (int i = 0; i < splitPoint; i++){
-    temp[i] = mutate (v1[i]);
-    v1[i] = mutate (v2[i]);
-    v2[i] = mutate (temp[i]);
+    temp[i] = mutate (p1.vec[i]);
+    p1.vec[i] = mutate (p2.vec[i]);
+    p2.vec[i] = mutate (temp[i]);
   }
 }
 
-void print (int (&bvec)[LENGTH], int bf, string filename, int maxIter){
+void print (chrom b, string filename){
   ofstream fout;
   fout.open (filename.c_str(), fstream::app);
-  fout << maxIter << ", " << bf << endl;
+  fout << b.location << ", " << b.fitness << endl;
 
-  cout << "Generations to hit max fitness:" << maxIter << endl
-       << "Max fitness: " << bf << endl;
+  cout << "Generations to hit max fitness:" << b.location << endl
+       << "Max fitness: " << b.fitness << endl;
   for (int i = 0; i < LENGTH; i+=50){
     for (int j = 0; j < 50; j++){
-      cout << bvec[i+j];
+      cout << b.vec[i+j];
     }
     cout << endl;
   }
