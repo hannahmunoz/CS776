@@ -10,7 +10,7 @@ using namespace std;
 
 static const int POOL_SIZE = 450;
 static const int LENGTH = 150;
-static const int ITER_SIZE = 10000000;
+static const int ITER_SIZE = 500000;
 
 
 struct chrom{
@@ -36,7 +36,7 @@ int main(int argc, char const *argv[]) {
     chrom pool [POOL_SIZE];
     fillPool (pool);
 
-    cout << populationFitness (pool)/POOL_SIZE << endl;
+    //cout << populationFitness (pool)/POOL_SIZE << endl;
 
     for (int iter = 0; iter < ITER_SIZE; iter++){
       chrom parent1;
@@ -60,7 +60,7 @@ int main(int argc, char const *argv[]) {
       }
     }
 
-    cout << populationFitness (pool)/POOL_SIZE << endl << endl;
+    //cout << populationFitness (pool)/POOL_SIZE << endl << endl;
     print (best, argv[1]);
   }else{
     cout << "Please run with a output filename." << endl;
