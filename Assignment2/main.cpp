@@ -8,9 +8,9 @@
 
 using namespace std;
 
-static const int POOL_SIZE = 500;
-static const int LENGTH = 100;
-static const int ITER_SIZE = 10;
+static const int POOL_SIZE = 450;
+static const int LENGTH = 150;
+static const int ITER_SIZE = 20000;
 
 double eval(int *vec);
 void fillPool (int p[POOL_SIZE][LENGTH ]);
@@ -21,6 +21,12 @@ double checkFitness (double &b, int (&bv)[LENGTH],  int cv[LENGTH], int &maxIter
 void merge (int (&v1)[LENGTH],  int (&v2)[LENGTH] );
 bool mutate (int v);
 void print (int (&bvec)[LENGTH], int bf, string filename, int maxIter);
+
+./*struct chrom{
+      int vec1[LENGTH];
+      int location;
+      int fitness;
+}*/
 
 int main(int argc, char const *argv[]) {
   if (argc > 1){
@@ -36,8 +42,8 @@ int main(int argc, char const *argv[]) {
     int loc2;
 
     fillPool (pool);
-    populationFitness (pool);
-    float t = populationFitness (pool)/POOL_SIZE;
+    //populationFitness (pool);
+    //float t = populationFitness (pool)/POOL_SIZE;
     //cout << populationFitness (pool)/POOL_SIZE << endl;
     //memcpy( vec1, pool [0], sizeof(vec1));
     //memcpy( vec2, pool [POOL_SIZE-1], sizeof(vec2));

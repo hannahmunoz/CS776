@@ -7,7 +7,13 @@ g++ -o slowCPP evalCPP1.o main.cpp
 
 while [ $iter -le 30 ];
   do
-    ./fastCPP fastCPP.txt
-    ./slowCPP slowCPP.txt
+    ./fastCPP fastCPP.csv
     let iter=iter+1
   done
+
+iter=0
+  while [ $iter -le 30 ];
+    do
+      ./slowCPP slowCPP.csv
+      let iter=iter+1
+    done
