@@ -14,6 +14,6 @@ g++ -std=c++11 -o slowCPP evalCPP1.o main.cpp
 iter=0
   while [ $iter -le 30 ];
     do
-      ./slowCPP slowCPP.csv
+      ./slowCPP slowCPP5000.csv
       let iter=iter+1
     done

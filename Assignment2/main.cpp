@@ -10,7 +10,7 @@ using namespace std;
 
 static const int POOL_SIZE = 450;
 static const int LENGTH = 150;
-static const int ITER_SIZE = 500000;
+static const int ITER_SIZE = 5000;
 
 
 struct chrom{
