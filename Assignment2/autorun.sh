@@ -12,8 +12,8 @@ while [ $iter -le 30 ];
   done
 
 iter=0
-  #while [ $iter -le 30 ];
-  #  do
-  #    ./slowCPP slowCPP5000.csv
-  #    let iter=iter+1
-  #  done
+while [ $iter -le 30 ];
+    do
+     ./slowCPP slowCPP5000.csv
+      let iter=iter+1
+    done
