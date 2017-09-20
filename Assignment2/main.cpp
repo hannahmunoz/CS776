@@ -58,11 +58,11 @@ int main(int argc, char const *argv[]) {
       if (parent2.fitness > pool[parent1.location].fitness){
         pool[parent1.location] = parent1;
       }
-          print (best, (populationFitness (pool)/POOL_SIZE), argv[1]);
+         // print (best, (populationFitness (pool)/POOL_SIZE), argv[1]);
     }
 
     //cout << populationFitness (pool)/POOL_SIZE << endl << endl;
-  //  print (best, argv[1]);
+    print (best, populationFitness (pool)/POOL_SIZE, argv[1]);
   }else{
     cout << "Please run with a output filename." << endl;
   }
@@ -126,14 +126,14 @@ void print (chrom b, double pop, string filename){
   fout.open (filename.c_str(), fstream::app);
   fout << pop << ", "<< b.location << ", " << b.fitness << endl;
 
-  /*cout << "Generations to hit max fitness:" << b.location << endl
+  cout << "Generations to hit max fitness:" << b.location << endl
        << "Max fitness: " << b.fitness << endl;
   for (int i = 0; i < LENGTH; i+=50){
     for (int j = 0; j < 50; j++){
       cout << b.vec[i+j];
     }
     cout << endl;
-  }*/
+  }
 }
 
 bool mutate (int v){
