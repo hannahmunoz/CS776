@@ -10,7 +10,7 @@ using namespace std;
 
 static const int POOL_SIZE = 450;
 static const int LENGTH = 150;
-static const int ITER_SIZE = 5000;
+static const int ITER_SIZE = 100000;
 
 
 struct chrom{
@@ -27,7 +27,7 @@ void roulette(chrom p[POOL_SIZE], chrom &parent);
 void checkFitness (chrom &b, chrom &p, int iter);
 void merge (chrom &p1, chrom &p2);
 bool mutate (int v);
-void print (chrom b, string filename);
+void print (chrom b, double pop, string filename);
 
 int main(int argc, char const *argv[]) {
   if (argc > 1){
@@ -58,10 +58,11 @@ int main(int argc, char const *argv[]) {
       if (parent2.fitness > pool[parent1.location].fitness){
         pool[parent1.location] = parent1;
       }
+          print (best, (populationFitness (pool)/POOL_SIZE), argv[1]);
     }
 
     //cout << populationFitness (pool)/POOL_SIZE << endl << endl;
-    print (best, argv[1]);
+  //  print (best, argv[1]);
   }else{
     cout << "Please run with a output filename." << endl;
   }
@@ -120,19 +121,19 @@ void merge (chrom &p1, chrom &p2){
   }
 }
 
-void print (chrom b, string filename){
+void print (chrom b, double pop, string filename){
   ofstream fout;
   fout.open (filename.c_str(), fstream::app);
-  fout << b.location << ", " << b.fitness << endl;
+  fout << pop << ", "<< b.location << ", " << b.fitness << endl;
 
-  cout << "Generations to hit max fitness:" << b.location << endl
+  /*cout << "Generations to hit max fitness:" << b.location << endl
        << "Max fitness: " << b.fitness << endl;
   for (int i = 0; i < LENGTH; i+=50){
     for (int j = 0; j < 50; j++){
       cout << b.vec[i+j];
     }
     cout << endl;
-  }
+  }*/
 }
 
 bool mutate (int v){
