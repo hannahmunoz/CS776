@@ -47,7 +47,7 @@ void Population::generation(Population *child){
 	Individual *p1, *p2, *c1, *c2;
 	//std::cout << "Parents" << std::endl;
 	//printPop(0, options.popSize);
-	
+
 	for(int i = 0; i < options.popSize; i += 2){
 		pi1 = proportionalSelector();
 		pi2 = proportionalSelector();
@@ -65,7 +65,7 @@ void Population::generation(Population *child){
 	//std::cout << "Children" << std::endl;
 	//	child->printPop(0, options.popSize);
 
-  
+
 }
 
 
@@ -188,8 +188,10 @@ int Population::proportionalSelector(){
 void Population::eval(int start, int end){
 	assert(start >= 0 && end >= start);
 	for(int i = start; i < end ; i++){
-	  //evaluate(pop[i]);
-	  xSquared(pop[i]);
+	 // evaluate(pop[i]);
+	 //firstDejong (pop[i], pop[i+1], pop[i+2]);
+	secondDejong (pop[i], pop[i+1]);
+	  //xSquared(pop[i]);
 	}
 }
 

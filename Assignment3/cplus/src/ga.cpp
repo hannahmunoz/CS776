@@ -86,14 +86,14 @@ void GA::updateProgress(unsigned int gen, Population *p){
     bestFitnessSoFar = p->max;
     maxFitGen = gen;
     bestIndividualSoFar->copy(p->pop[p->maxi]);
-    
+
     char printbuf[1024];
     char chromString[MAX_CHROM_LENGTH+1];
     chromToString(bestIndividualSoFar->chrom, bestIndividualSoFar->length, chromString);
     sprintf(printbuf, "%4i \t %f \t %s\n", maxFitGen, bestFitnessSoFar, chromString);
     writeBufToFile(printbuf, options.phenotypeFile);
   }
-  
+
 }
 
 
@@ -122,9 +122,9 @@ void GA::setupOptions(int argc, char *argv[]){
 	options.infile = string("infile");
 	options.outfile = string("outfile_189");// append randomseed to output file names
 
-	options.popSize = 10;
+	options.popSize = 100;
 	options.chromLength = 10;
-	options.maxgens = 10;
+	options.maxgens = 100;
 	options.px = 0.7f;
 	options.pm = 0.001f;
 	options.scaler = 1.05;
@@ -142,10 +142,8 @@ void GA::setupOptions(int argc, char *argv[]){
 		configure();
 	}
 	//derived values go after configure() above
-	options.phenotypeFile   = string(options.outfile + ".pheno"); //derived from options.outfile
+	options.phenotypeFile = string(options.outfile + ".pheno"); //derived from options.outfile
 	//options.maxgens = options.popSize * 1.5;
 
 
 }
-
-
