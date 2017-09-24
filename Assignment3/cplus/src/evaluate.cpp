@@ -18,6 +18,8 @@
 #include <fstream>
 #include <assert.h>
 
+#include <random>
+
 using namespace std;
 
 void evaluate(ga::Individual *ent){
@@ -50,36 +52,39 @@ void xSquared(ga::Individual *ent) {
   return;
 }
 
-void firstDejong(ga::Individual *ent, ga::Individual *ent1, ga::Individual *ent2){
-	float value1 = decode (ent->chrom ,0, ent->length, float(-5.12),float (5.12));
-	float value2 =	decode (ent1->chrom ,0, ent->length, float(-5.12),float (5.12));
-	float value3 =	decode (ent2->chrom ,0, ent->length, float(-5.12),float (5.12));
+void firstDejong(ga::Individual *ent){
+	float value1 = decode (ent->chrom ,0, 5, float(-5.12),float (5.12));
+	float value2 =	decode (ent->chrom ,5, 10, float(-5.12),float (5.12));
+	float value3 =	decode (ent->chrom ,10, ent->length, float(-5.12),float (5.12));
 
-	ent->fit = (pow (value1, 2) + pow (value2, 2) + pow (value3, 2));
-	return;
+	ent->fit = 1 / ((pow (value1, 2) + pow (value2, 2) + pow (value3, 2)));
 }
 
-void secondDejong(ga::Individual *ent, ga::Individual *ent1){
-	double value = decode (ent->chrom ,0, ent->length, float(-2.048),float (2.048));
-	double value1 = decode (ent1->chrom ,0, ent->length, float(-2.048),float (2.048));
-	ent->fit = 100 * pow ((pow (value , 2) - value1), 2) + pow(1-value, 2);
-	return;
+void secondDejong(ga::Individual *ent){
+	float value = decode (ent->chrom ,0, ent->length/2, -2.048, 2.048);
+	float value1 = decode (ent->chrom , ent->length/2, ent->length, -2.048, 2.048);
+
+	ent->fit = 1/(100 * pow ((pow (value , 2) - value1), 2) + pow(1-value, 2));
 }
 
 void thirdDejong(ga::Individual *ent){
-	/*double value = decode(vec, 0, 5);
-	cout << value << endl;
-	return ceil(value) + ceil(value  + 1) + ceil(value + 2)+ ceil(value + 3)+ ceil(value + 4);*/
+	double value;
+	for (int i = 0; i < 5; i++){
+		value += ceil (decode (ent->chrom ,ent->length/5*i, ent->length/5*(i+1), -5.12, 5.12));
+	}
+	ent->fit = 1/value;
+
 }
 
 void fourthDejong(ga::Individual *ent){
-	/*double value = decode(vec, 0, 5);
-	cout << value << endl;
-	double fitness;
-	for (int i = 0 i < 30; i++){
-		fitness += i*pow ( value + i, 4) + normal_distribution<double> distribution(0.0,1.0);
+	float value;
+	default_random_engine generator;
+	normal_distribution<double> distribution(0.0,1.0);
+	for (int i = 0; i < 30; i++){
+		value = decode (ent->chrom ,ent->length/30*i, ent->length/30*(i+1), -1.28, 1.28);
+		ent->fit += i*pow ( value, 4) + distribution(generator);
 	}
-	return fitness;*/
+	ent->fit = 1/ent->fit;
 }
 
 void fithDejong(ga::Individual *ent){

@@ -123,8 +123,8 @@ void GA::setupOptions(int argc, char *argv[]){
 	options.outfile = string("outfile_189");// append randomseed to output file names
 
 	options.popSize = 100;
-	options.chromLength = 10;
-	options.maxgens = 100;
+	options.chromLength = 25;
+	options.maxgens = 5000;
 	options.px = 0.7f;
 	options.pm = 0.001f;
 	options.scaler = 1.05;

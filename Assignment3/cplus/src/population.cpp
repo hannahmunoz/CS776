@@ -189,8 +189,10 @@ void Population::eval(int start, int end){
 	assert(start >= 0 && end >= start);
 	for(int i = start; i < end ; i++){
 	 // evaluate(pop[i]);
-	 //firstDejong (pop[i], pop[i+1], pop[i+2]);
-	secondDejong (pop[i], pop[i+1]);
+	 //firstDejong (pop[i]]);
+	 //secondDejong (pop[i]);
+	 //thirdDejong (pop[i]);
+	 fourthDejong (pop[i]);
 	  //xSquared(pop[i]);
 	}
 }
