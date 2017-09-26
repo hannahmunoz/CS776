@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-File = 'Dejong4'
+File = 'Dejong1'
 
 for f in os.listdir (File):
     for sf in os.listdir (os.path.join (File,f)):
@@ -14,7 +14,7 @@ for f in os.listdir (File):
         plt.ylabel('Fitness')
         plt.plot(x, y, linewidth=2.0)
         plt.grid (True)
-        plt.title('Average Maximum Fitness of ' + f)
+        plt.title('Average Maximum Population Fitness of ' + f)
         plt.savefig (os.path.join (os.path.join (File,f),'max.png'))
         plt.clf()
 
@@ -25,7 +25,7 @@ for f in os.listdir (File):
         plt.ylabel('Fitness')
         plt.plot(x, y, linewidth=2.0)
         plt.grid (True)
-        plt.title('Average Minimum Fitness of ' + f)
+        plt.title('Average Minimum Population Fitness of ' + f)
         plt.savefig (os.path.join (os.path.join (File,f),'min.png'))
         plt.clf()
 
@@ -36,7 +36,7 @@ for f in os.listdir (File):
         plt.ylabel('Fitness')
         plt.plot(x, y, linewidth=2.0)
         plt.grid (True)
-        plt.title('Average Average Fitness of ' + f)
+        plt.title('Average Average Population Fitness of ' + f)
         plt.savefig (os.path.join (os.path.join (File,f),'average.png'))
         plt.clf()
         #plt.show()

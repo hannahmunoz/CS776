@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-File = 'Dejong4'
+File = 'Dejong1'
 
 for f in os.listdir (File):
     run = 0
