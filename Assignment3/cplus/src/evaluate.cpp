@@ -53,11 +53,10 @@ void xSquared(ga::Individual *ent) {
 }
 
 void firstDejong(ga::Individual *ent){
-	float value1 = decode (ent->chrom ,0, 5, float(-5.12),float (5.12));
-	float value2 =	decode (ent->chrom ,5, 10, float(-5.12),float (5.12));
-	float value3 =	decode (ent->chrom ,10, ent->length, float(-5.12),float (5.12));
-
-	ent->fit = 1 / ((pow (value1, 2) + pow (value2, 2) + pow (value3, 2)));
+	for (int i = 0; i < 3; i++){
+		ent->fit += pow (decode (ent->chrom, ent->length/3*i, (ent->length/3)*(i+1), -5.12, 5.12),2);
+	}
+	ent->fit = 1/ent->fit;
 }
 
 void secondDejong(ga::Individual *ent){

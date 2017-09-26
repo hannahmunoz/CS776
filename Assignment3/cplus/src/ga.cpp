@@ -34,8 +34,8 @@ GA::GA(int argc, char *argv[]){
 	srandom(options.randomSeed);
 	ofstream ofs(options.outfile, std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
-	ofstream pofs(options.phenotypeFile, std::ofstream::out | std::ofstream::trunc);
-	pofs.close();
+	//ofstream pofs(options.phenotypeFile, std::ofstream::out | std::ofstream::trunc);
+	//pofs.close();
 	maxFitGen = 0;
 	this->bestIndividualSoFar = new Individual(options.chromLength);
 	bestFitnessSoFar = -1;
@@ -48,7 +48,7 @@ void GA::init(){
 	parent = new Population(options);
 	child  = new Population(options);
 	parent->initialize(); // evaluates, stats, and reports on initial population
-	updateProgress(0, parent);
+	//updateProgress(0, parent);
 //	cout << "initialized" << endl;
 }
 
@@ -67,7 +67,7 @@ void GA::run(){//chc
 		child->statistics();
 		child->report(i);
 
-		updateProgress(i, child);
+		//updateProgress(i, child);
 
 		tmp = parent;
 		parent = child;
@@ -122,11 +122,11 @@ void GA::setupOptions(int argc, char *argv[]){
 	options.infile = string("infile");
 	options.outfile = string("outfile_189");// append randomseed to output file names
 
-	options.popSize = 100;
-	options.chromLength = 25;
-	options.maxgens = 5000;
-	options.px = 0.7f;
-	options.pm = 0.001f;
+	options.popSize = 80;
+	options.chromLength = 15;
+	options.maxgens = 1000;
+	options.px = 0.2f;
+	options.pm = 0.0001f;
 	options.scaler = 1.05;
 	options.lambda = 2;
 	options.nCriteria   = 1;
@@ -135,10 +135,12 @@ void GA::setupOptions(int argc, char *argv[]){
 	options.xover = Xover::UX;
 	options.selector = Selector::Proportionate;
 
-	if(argc == 4){
+	if(argc == 6){
 		options.infile = string(argv[1]);
 		options.outfile = string(argv[2]);
 		options.randomSeed = atoi(argv[3]);
+		options.px = atof(argv[4]);
+		options.pm = atof(argv[5]);
 		configure();
 	}
 	//derived values go after configure() above
