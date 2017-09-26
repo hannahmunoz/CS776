@@ -71,7 +71,12 @@ void thirdDejong(ga::Individual *ent){
 	for (int i = 0; i < 5; i++){
 		value += (int) decode (ent->chrom ,ent->length/5*i, ent->length/5*(i+1), -5.12, 5.12);
 	}
-	ent->fit = 1/value;
+	if (value != 0){
+		ent->fit = 1/value;
+	}
+	else{
+		ent->fit = value;
+	}
 
 }
 
