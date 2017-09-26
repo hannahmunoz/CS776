@@ -5,27 +5,37 @@ import os
 
 
 for f in os.listdir ('Dejong1/'):
-    os.remove (os.path.join (os.path.join ('Dejong1/',f), 'min'))
-    os.remove (os.path.join (os.path.join ('Dejong1/',f), 'average'))
-    os.remove (os.path.join (os.path.join ('Dejong1/',f), 'max'))
+    #os.remove (os.path.join (os.path.join ('Dejong1/',f), 'min'))
+    #os.remove (os.path.join (os.path.join ('Dejong1/',f), 'average'))
+    #os.remove (os.path.join (os.path.join ('Dejong1/',f), 'max'))
+    run = 0
     for sf in os.listdir (os.path.join ('Dejong1/',f)):
-       data = np.loadtxt(os.path.join (os.path.join ('Dejong1/',f),sf))
-       gen, minimum, average, maximum = data[:, 0],data[:, 1],data[:, 2],data[:,3]
+           data = np.loadtxt(os.path.join (os.path.join ('Dejong1/',f),sf))
+           gen, minimum, average, maximum = data[:, 0],data[:, 1],data[:, 2],data[:,3]
 
-       fmin=open(os.path.join (os.path.join ('Dejong1/',f), 'min'), 'a')
-       fmin.write ('%f' %np.mean (minimum))
-       fmin.write ('\n')
+           fmin=open(os.path.join (os.path.join ('Dejong1/',f), 'min'), 'a')
+           fmin.write ('%d' %run)
+           fmin.write ('\t')
+           fmin.write ('%f' %np.mean (minimum))
+           fmin.write ('\n')
 
-       fmin=open(os.path.join (os.path.join ('Dejong1/',f), 'average'), 'a')
-       fmin.write ('%f' %np.mean (average))
-       fmin.write ('\n')
+           fmin=open(os.path.join (os.path.join ('Dejong1/',f), 'average'), 'a')
+           fmin.write ('%d' %run)
+           fmin.write ('\t')
+           fmin.write ('%f' %np.mean (average))
+           fmin.write ('\n')
 
-       fmin=open(os.path.join (os.path.join ('Dejong1/',f), 'max'), 'a')
-       fmin.write ('%f' %np.mean (maximum))
-       fmin.write ('\n')
-       os.remove (os.path.join (os.path.join ('Dejong1/',f),sf))
+           fmin=open(os.path.join (os.path.join ('Dejong1/',f), 'max'), 'a')
+           fmin.write ('%d' %run)
+           fmin.write ('\t')
+           fmin.write ('%f' %np.mean (maximum))
+           fmin.write ('\n')
+           os.remove (os.path.join (os.path.join ('Dejong1/',f),sf))
 
+           run = run + 1
+
+    #plt.ylabel('Run')
+    #plt.ylabel('Fitness')
+    #plt.plot(x, y, linewidth=2.0)
+    #plt.show()
 quit()
-
-#plt.plot(x, y, linewidth=2.0)
-#plt.show()
