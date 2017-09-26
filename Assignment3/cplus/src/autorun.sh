@@ -3,42 +3,44 @@ iter=0
 
 make
 
+mainfile="Dejong4"
+
 while [ $iter -le 30 ];
   do
     #1
-    output="Dejong1/Normal/outfile$iter"
+    output="$mainfile/Normal/outfile$iter"
     ./ga "infile" $output $iter 0.67 0.001
 
     #2
-    output="Dejong1/LowCrossLowMutation/outfile$iter"
+    output="$mainfile/LowCrossLowMutation/outfile$iter"
     ./ga "infile" $output $iter 0.2 0.0001
 
     #3
-    output="Dejong1/LowCrossHighMutation/outfile$iter"
+    output="$mainfile/LowCrossHighMutation/outfile$iter"
     ./ga "infile" $output $iter 0.2 0.01
 
     #4
-    output="Dejong1/HighCrossHighMutation/outfile$iter"
+    output="$mainfile/HighCrossHighMutation/outfile$iter"
     ./ga "infile" $output $iter 0.99 0.01
 
     #5
-    output="Dejong1/HighCrossLowMutation/outfile$iter"
+    output="$mainfile/HighCrossLowMutation/outfile$iter"
     ./ga "infile" $output $iter 0.99 0.0001
 
     #6
-    output="Dejong1/LowCrossNormalMutation/outfile$iter"
+    output="$mainfile/LowCrossNormalMutation/outfile$iter"
     ./ga "infile" $output $iter 0.2 0.001
 
     #7
-    output="Dejong1/HighCrossNormalMutation/outfile$iter"
+    output="$mainfile/HighCrossNormalMutation/outfile$iter"
     ./ga "infile" $output $iter 0.99 0.001
 
     #8
-    output="Dejong1/NormalCrossHighMutation/outfile$iter"
+    output="$mainfile/NormalCrossHighMutation/outfile$iter"
     ./ga "infile" $output $iter 0.67 0.01
 
     #9
-    output="Dejong1/NormalCrossLowMutation/outfile$iter"
+    output="$mainfile/NormalCrossLowMutation/outfile$iter"
     ./ga "infile" $output $iter 0.67 0.0001
 
     let iter=iter+1

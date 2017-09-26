@@ -63,7 +63,7 @@ void secondDejong(ga::Individual *ent){
 	float value = decode (ent->chrom ,0, ent->length/2, -2.048, 2.048);
 	float value1 = decode (ent->chrom , ent->length/2, ent->length, -2.048, 2.048);
 
-	ent->fit = 1/(100 * pow ((pow (value , 2) - value1), 2) + pow(1-value, 2));
+	ent->fit = 1/log ((100 * pow ((pow (value , 2) - value1), 2) + pow(1-value, 2)));
 }
 
 void thirdDejong(ga::Individual *ent){

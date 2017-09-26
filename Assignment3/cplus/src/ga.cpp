@@ -118,15 +118,15 @@ void GA::configure(){
 
 void GA::setupOptions(int argc, char *argv[]){
 
-	options.randomSeed = 189;
+	options.randomSeed = 20;
 	options.infile = string("infile");
 	options.outfile = string("outfile_189");// append randomseed to output file names
 
 	options.popSize = 80;
-	options.chromLength = 15;
-	options.maxgens = 1000;
-	options.px = 0.2f;
-	options.pm = 0.0001f;
+	options.chromLength = 30;
+	options.maxgens = 500;
+	options.px = 0.67f;
+	options.pm = 0.001f;
 	options.scaler = 1.05;
 	options.lambda = 2;
 	options.nCriteria   = 1;
