@@ -3,7 +3,7 @@ iter=0
 
 make
 
-mainfile="Dejong2"
+mainfile="Dejong3"
 
 while [ $iter -le 30 ];
   do

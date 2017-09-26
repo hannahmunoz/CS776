@@ -69,7 +69,7 @@ void secondDejong(ga::Individual *ent){
 void thirdDejong(ga::Individual *ent){
 	double value;
 	for (int i = 0; i < 5; i++){
-		value += ceil (decode (ent->chrom ,ent->length/5*i, ent->length/5*(i+1), -5.12, 5.12));
+		value += (int) decode (ent->chrom ,ent->length/5*i, ent->length/5*(i+1), -5.12, 5.12);
 	}
 	ent->fit = 1/value;
 

@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-File = 'Dejong2'
+File = 'Dejong3'
 
 for f in os.listdir (File):
     for sf in os.listdir (os.path.join (File,f)):

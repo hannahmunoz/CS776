@@ -190,8 +190,8 @@ void Population::eval(int start, int end){
 	for(int i = start; i < end ; i++){
 	 // evaluate(pop[i]);
 	 //firstDejong (pop[i]);
-	 secondDejong (pop[i]);
-	 //thirdDejong (pop[i]);
+	 //secondDejong (pop[i]);
+	 thirdDejong (pop[i]);
 	  //fourthDejong (pop[i]);
 	  //xSquared(pop[i]);
 	}
