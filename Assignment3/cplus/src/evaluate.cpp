@@ -75,7 +75,7 @@ void thirdDejong(ga::Individual *ent){
 		ent->fit = 1/value;
 	}
 	else{
-		ent->fit = value;
+		ent->fit = 10;
 	}
 
 }

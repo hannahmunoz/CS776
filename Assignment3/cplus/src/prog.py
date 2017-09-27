@@ -7,34 +7,33 @@ import os
 File = 'Dejong4'
 
 for f in os.listdir (File):
-    run = 0
-    for sf in os.listdir (os.path.join (File,f)):
-           data = np.loadtxt(os.path.join (os.path.join (File,f),sf))
-           gen, minimum, average, maximum = data[:, 0],data[:, 1],data[:, 2],data[:,3]
-
-           fmin=open(os.path.join (os.path.join (File,f), 'min'), 'a')
-           fmin.write ('%d' %run)
-           fmin.write ('\t')
-           fmin.write ('%f' %np.mean (minimum))
-           fmin.write ('\n')
-
-           fmin=open(os.path.join (os.path.join (File,f), 'average'), 'a')
-           fmin.write ('%d' %run)
-           fmin.write ('\t')
-           fmin.write ('%f' %np.mean (average))
-           fmin.write ('\n')
-
-           fmin=open(os.path.join (os.path.join (File,f), 'max'), 'a')
-           fmin.write ('%d' %run)
-           fmin.write ('\t')
-           fmin.write ('%f' %np.mean (maximum))
-           fmin.write ('\n')
-           os.remove (os.path.join (os.path.join (File,f),sf))
-
-           run = run + 1
-
-    #plt.ylabel('Run')
-    #plt.ylabel('Fitness')
-    #plt.plot(x, y, linewidth=2.0)
-    #plt.show()
+    for i in range(len(list(open(os.path.join (File, os.path.join ('HighCrossHighMutation','outfile0')))))-1):
+        minimum = 0
+        average = 0
+        maximum = 0
+        run = 0
+        for sf in os.listdir (os.path.join (File,f)):
+            if sf != 'Averages':
+                #print (sf)
+                data = np.loadtxt(os.path.join (File,(os.path.join (f,sf))))
+            #print (i, '\t')
+            #print (data[i,1])
+                minimum  += data[i,1]
+                average  += data[i,2]
+                maximum  += data[i,3]
+                run +=1
+    #
+        minimum = minimum/run
+        average = average/run
+        maximum = maximum/run
+        fmin=open(os.path.join (os.path.join (File,f), 'Averages'), 'a')
+        fmin.write ('%d' %i)
+        fmin.write ('\t')
+        fmin.write ('%f' %minimum)
+        fmin.write ('\t')
+        fmin.write ('%f' %average)
+        fmin.write ('\t')
+        fmin.write ('%f' %maximum)
+        fmin.write ('\n')
+    # #        #os.remove (os.path.join (os.path.join (File,f),sf))
 quit()
