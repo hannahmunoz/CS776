@@ -13,6 +13,7 @@
 #include <population.h>
 #include <ga.h>
 #include <random.h>
+#include <string.h>
 
 
 using namespace std;
@@ -24,8 +25,8 @@ int main(int argc, char *argv[]) {
 	GA ga = GA(argc, argv);
 
 	 ga.init();
-	 //ga.run();
-	 //ga.report();
+	 ga.run();
+	 ga.report();
 
 	return 0;
 }
@@ -63,7 +64,7 @@ void GA::run(){//chc
 	Population *tmp;
 	for (unsigned int i = 1; i < options.maxgens; i++){
 	  //		parent->chc(child);
-	        parent->generation(child);
+	  parent->generation(child);
 		child->statistics();
 		child->report(i);
 
@@ -88,9 +89,9 @@ void GA::updateProgress(unsigned int gen, Population *p){
     bestIndividualSoFar->copy(p->pop[p->maxi]);
 
     char printbuf[1024];
-    char chromString[MAX_CHROM_LENGTH+1];
+		string chromString;
     chromToString(bestIndividualSoFar->chrom, bestIndividualSoFar->length, chromString);
-    sprintf(printbuf, "%4i \t %f \t %s\n", maxFitGen, bestFitnessSoFar, chromString);
+    sprintf(printbuf, "%4i \t %f \t %s\n", maxFitGen, bestFitnessSoFar, chromString.c_str());
     writeBufToFile(printbuf, options.phenotypeFile);
   }
 
@@ -102,18 +103,18 @@ void GA::report(){
   cout << *(parent->pop[parent->maxi]) << endl;
 }
 
-void GA::configure(vector <int> &dataset, vector <float> &latitude, vector <float> &longitude, int &length){
+void GA::configure(){
 	ifstream ifs(options.infile);
 	string temp;
 	if(ifs.good()){
 		while (temp.compare ("DIMENSION:") != 0){
 			ifs >> temp;
 		}
-		ifs >> length; //dimension
+		ifs >> options.chromLength; //dimension
 		while (temp.compare ("NODE_COORD_SECTION") != 0){
 			ifs >> temp;
 		}
-		for (int i = 0; i < length; i++){
+		for (int i = 0; i < options.chromLength; i++){
 			int t;
 			float j;
 			ifs >> t;
@@ -151,7 +152,7 @@ void GA::setupOptions(int argc, char *argv[]){
 		options.infile = string(argv[1]);
 		options.outfile = string(argv[2]);
 		options.randomSeed = atoi(argv[3]);
-		configure(options.dataset, options.latitude, options.longitude, options.chromLength);
+		configure();
 	}
 
 	//derived values go after configure() above

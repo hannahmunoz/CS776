@@ -46,12 +46,14 @@ void writeBufToFile(std::string buf, std::string filename){
 	ofs.close();
 }
 
-void chromToString(int *chrom, int len, char *s){
+void chromToString(int *chrom, int len, std::string &s){
+	//s =" ";
 	for(int i = 0; i < len; i++){
-		s[i] = (chrom[i] == 0 ? '0' : '1');
+
+		s += std::to_string(chrom[i]) + " ";
 	}
-	s[len] = '\0';
-	assert(strlen(s) == (unsigned int) len);
+	s+= '\n';
+	//assert(strlen(s) == (unsigned int) len);
 }
 
 void stringToChrom(char *chromChar, int len, int *chromInt){
@@ -79,6 +81,3 @@ float decode(const char* chrom, int start, int end, float min, float max){
 	float precision = (max - min)/pow(2.0, (double)(end-start));
 	return min + (precision * sum);
 }
-
-
-

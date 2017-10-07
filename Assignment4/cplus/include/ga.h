@@ -18,7 +18,7 @@ namespace ga {
 	class GA {
 
 	private:
-		void configure(std::vector <int> &dataset, std::vector <float> &latitude, std::vector <float> &longitude, int &length);
+		void configure();
 
 	public:
 		Population *parent;
