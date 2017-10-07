@@ -9,13 +9,22 @@
 #define GA_H_
 
 #include <population.h>
+#include <vector>
+
+
 
 namespace ga {
+
+	struct information{
+		std::vector <int> dataset;
+		std::vector <float> latitude;
+		std::vector <float> longitude;
+	};
 
 	class GA {
 
 	private:
-		void configure();
+		void configure(information &set);
 
 	public:
 		Population *parent;
@@ -27,10 +36,10 @@ namespace ga {
 		double     bestFitnessSoFar;
 
 		//GA(){}
-		GA(int argc, char *argv[]);
+		GA(int argc, char *argv[], information &set);
 		~GA(){}
 
-		void setupOptions(int argc, char *argv[]);
+		void setupOptions(int argc, char *argv[], information &set);
 		void init();
 		void run();
 		//virtual void CHC(Population *p, Population *c);

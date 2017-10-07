@@ -14,23 +14,30 @@
 #include <ga.h>
 #include <random.h>
 
+
 using namespace std;
 using namespace ga;
 
+
+
 int main(int argc, char *argv[]) {
+	information set;
 
-	GA ga = GA(argc, argv);
+	GA ga = GA(argc, argv, set);
+	for (int i =0; i < set.dataset.size(); i++){
+	cout << set.dataset[i] << " ";
+  }
 
-	ga.init();
-	ga.run();
-	ga.report();
+	//ga.init();
+	//ga.run();
+	//ga.report();
 
 	return 0;
 }
 
-GA::GA(int argc, char *argv[]){
+GA::GA(int argc, char *argv[], information &set){
 
-	setupOptions(argc, argv);
+	setupOptions(argc, argv, set);
 	srandom(options.randomSeed);
 	ofstream ofs(options.outfile, std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
@@ -86,14 +93,14 @@ void GA::updateProgress(unsigned int gen, Population *p){
     bestFitnessSoFar = p->max;
     maxFitGen = gen;
     bestIndividualSoFar->copy(p->pop[p->maxi]);
-    
+
     char printbuf[1024];
     char chromString[MAX_CHROM_LENGTH+1];
     chromToString(bestIndividualSoFar->chrom, bestIndividualSoFar->length, chromString);
     sprintf(printbuf, "%4i \t %f \t %s\n", maxFitGen, bestFitnessSoFar, chromString);
     writeBufToFile(printbuf, options.phenotypeFile);
   }
-  
+
 }
 
 
@@ -102,25 +109,38 @@ void GA::report(){
   cout << *(parent->pop[parent->maxi]) << endl;
 }
 
-void GA::configure(){
+void GA::configure(information &set){
 	ifstream ifs(options.infile);
+	string temp;
+	int dimension;
 	if(ifs.good()){
-		ifs >> options.popSize;
-		ifs >> options.chromLength;
-		ifs >> options.maxgens;
-		ifs >> options.px;
-		ifs >> options.pm;
-		ifs >> options.scaler;
-		ifs >> options.lambda;
+		while (temp.compare ("DIMENSION:") != 0){
+			ifs >> temp;
+		}
+		ifs >> dimension; //dimension
+		while (temp.compare ("NODE_COORD_SECTION") != 0){
+			ifs >> temp;
+		}
+		for (int i = 0; i < dimension; i++){
+			int t;
+			float j;
+			ifs >> t;
+			set.dataset.push_back (t);
+			ifs >> j;
+			set.latitude.push_back (j);
+			ifs >> j;
+			set.longitude.push_back (j);
+		}
+
 	}
 	ifs.close();
 }
 
-void GA::setupOptions(int argc, char *argv[]){
+void GA::setupOptions(int argc, char *argv[], information &set){
 
 	options.randomSeed = 189;
 	options.infile = string("infile");
-	options.outfile = string("outfile_189");// append randomseed to output file names
+	options.outfile = string("outfile");// append randomseed to output file names
 
 	options.popSize = 10;
 	options.chromLength = 10;
@@ -139,13 +159,12 @@ void GA::setupOptions(int argc, char *argv[]){
 		options.infile = string(argv[1]);
 		options.outfile = string(argv[2]);
 		options.randomSeed = atoi(argv[3]);
-		configure();
+		configure(set);
 	}
+
 	//derived values go after configure() above
 	options.phenotypeFile   = string(options.outfile + ".pheno"); //derived from options.outfile
 	//options.maxgens = options.popSize * 1.5;
 
 
 }
-
-
