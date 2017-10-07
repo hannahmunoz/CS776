@@ -10,6 +10,8 @@
 
 #include <string>
 #include <const.h>
+#include <vector>
+
 namespace ga {
 
 	typedef struct {
@@ -33,6 +35,10 @@ namespace ga {
         int nCriteria;
         bool maximize;
         bool nsga;
+
+	std::vector <int> dataset;
+	std::vector <float> latitude;
+	std::vector <float> longitude;
 
 	}Options;
 

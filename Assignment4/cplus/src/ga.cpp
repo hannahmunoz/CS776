@@ -21,23 +21,18 @@ using namespace ga;
 
 
 int main(int argc, char *argv[]) {
-	information set;
+	GA ga = GA(argc, argv);
 
-	GA ga = GA(argc, argv, set);
-	for (int i =0; i < set.dataset.size(); i++){
-	cout << set.dataset[i] << " ";
-  }
-
-	//ga.init();
-	//ga.run();
-	//ga.report();
+	 ga.init();
+	 //ga.run();
+	 //ga.report();
 
 	return 0;
 }
 
-GA::GA(int argc, char *argv[], information &set){
+GA::GA(int argc, char *argv[]){
 
-	setupOptions(argc, argv, set);
+	setupOptions(argc, argv);
 	srandom(options.randomSeed);
 	ofstream ofs(options.outfile, std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
@@ -46,8 +41,6 @@ GA::GA(int argc, char *argv[], information &set){
 	maxFitGen = 0;
 	this->bestIndividualSoFar = new Individual(options.chromLength);
 	bestFitnessSoFar = -1;
-
-
 }
 
 
@@ -109,34 +102,33 @@ void GA::report(){
   cout << *(parent->pop[parent->maxi]) << endl;
 }
 
-void GA::configure(information &set){
+void GA::configure(vector <int> &dataset, vector <float> &latitude, vector <float> &longitude, int &length){
 	ifstream ifs(options.infile);
 	string temp;
-	int dimension;
 	if(ifs.good()){
 		while (temp.compare ("DIMENSION:") != 0){
 			ifs >> temp;
 		}
-		ifs >> dimension; //dimension
+		ifs >> length; //dimension
 		while (temp.compare ("NODE_COORD_SECTION") != 0){
 			ifs >> temp;
 		}
-		for (int i = 0; i < dimension; i++){
+		for (int i = 0; i < length; i++){
 			int t;
 			float j;
 			ifs >> t;
-			set.dataset.push_back (t);
+			options.dataset.push_back (t);
 			ifs >> j;
-			set.latitude.push_back (j);
+			options.latitude.push_back (j);
 			ifs >> j;
-			set.longitude.push_back (j);
+			options.longitude.push_back (j);
 		}
-
+ options.chromLength++;
 	}
 	ifs.close();
 }
 
-void GA::setupOptions(int argc, char *argv[], information &set){
+void GA::setupOptions(int argc, char *argv[]){
 
 	options.randomSeed = 189;
 	options.infile = string("infile");
@@ -159,7 +151,7 @@ void GA::setupOptions(int argc, char *argv[], information &set){
 		options.infile = string(argv[1]);
 		options.outfile = string(argv[2]);
 		options.randomSeed = atoi(argv[3]);
-		configure(set);
+		configure(options.dataset, options.latitude, options.longitude, options.chromLength);
 	}
 
 	//derived values go after configure() above

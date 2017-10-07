@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <const.h>
+#include <vector>
 
 namespace ga {
 
@@ -30,7 +31,7 @@ namespace ga {
 		~Individual(){
 		}
 		void copy(Individual *i);
-		void init(int len);
+		void init(int len, std::vector <int> &dataset, std::vector <float> &latitude, std::vector <float> &longitude);
 		void mutate(float prob);
 
 		friend std::ostream &operator<<(std::ostream &output, const Individual &ip){

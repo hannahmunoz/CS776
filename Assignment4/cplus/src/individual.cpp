@@ -14,7 +14,7 @@ using namespace std;
 using namespace ga;
 
 Individual::Individual(){
-	length    = 0;
+	length = 0;
 	setup();
 }
 
@@ -30,12 +30,23 @@ void Individual::setup(){
 }
 
 
-void Individual::init(int len){
+void Individual::init(int len, vector <int> &dataset, vector <float> &latitude, vector <float> &longitude){
 	assert(len <= MAX_CHROM_LENGTH);
 	length = len;
+	std::vector<int> marker;
+	marker.resize (dataset.size()+1);
+	fill(marker.begin(), marker.end(), 0);
+
 	for(int i = 0; i < length; i++){
-		this->chrom[i] = flip(0.5);
+		int temp = intInRange(0, dataset.size()+1);
+		while (marker[temp] != 0){
+			temp = intInRange(0, dataset.size()+1);
+		}
+		this->chrom[i] = temp;
+		marker [temp] = 1;
+		cout << this->chrom[i] << " ";
 	}
+	cout << endl;
 }
 
 
@@ -60,4 +71,3 @@ void Individual::copy(Individual *ip){
 	this->fit = ip->fit;
 	this->scaledFit = ip->scaledFit;
 }
-

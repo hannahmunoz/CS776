@@ -15,16 +15,10 @@
 
 namespace ga {
 
-	struct information{
-		std::vector <int> dataset;
-		std::vector <float> latitude;
-		std::vector <float> longitude;
-	};
-
 	class GA {
 
 	private:
-		void configure(information &set);
+		void configure(std::vector <int> &dataset, std::vector <float> &latitude, std::vector <float> &longitude, int &length);
 
 	public:
 		Population *parent;
@@ -36,10 +30,10 @@ namespace ga {
 		double     bestFitnessSoFar;
 
 		//GA(){}
-		GA(int argc, char *argv[], information &set);
+		GA(int argc, char *argv[]);
 		~GA(){}
 
-		void setupOptions(int argc, char *argv[], information &set);
+		void setupOptions(int argc, char *argv[]);
 		void init();
 		void run();
 		//virtual void CHC(Population *p, Population *c);

@@ -26,7 +26,7 @@ void Population::setup(){
 	assert(options.popSize * options.lambda <= MAX_POPSIZE);
 	for (int i = 0; i < options.popSize * options.lambda; i++){
 		pop[i] = new Individual(options.chromLength);
-		pop[i]->init(options.chromLength);
+		pop[i]->init(options.chromLength, options.dataset, options.latitude, options.longitude);
 	}
 	avg = min = max = -1;
 	mini = maxi = -1;
@@ -47,7 +47,7 @@ void Population::generation(Population *child){
 	Individual *p1, *p2, *c1, *c2;
 	//std::cout << "Parents" << std::endl;
 	//printPop(0, options.popSize);
-	
+
 	for(int i = 0; i < options.popSize; i += 2){
 		pi1 = proportionalSelector();
 		pi2 = proportionalSelector();
@@ -65,7 +65,7 @@ void Population::generation(Population *child){
 	//std::cout << "Children" << std::endl;
 	//	child->printPop(0, options.popSize);
 
-  
+
 }
 
 
