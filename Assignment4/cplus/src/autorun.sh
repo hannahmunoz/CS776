@@ -4,7 +4,7 @@ iter=0
 make
 
 
-mainfile="eil51"
+mainfile="berlin52"
 output="./Tours/$mainfile/output"
 
 while [ $iter -le 30 ];

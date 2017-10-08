@@ -39,12 +39,12 @@ void euclideanDistance(ga::Individual *ent, std::vector <float> latitude, std::v
 	double sum = 0;
 	double x, y;
 		for (int i = 0; i < ent->length-1; i++){
-			 x = latitude [ent->chrom [i]] - latitude [ent->chrom [i+1]];
-			 y = longitude [ent->chrom [i]] - longitude [ent->chrom [i+1]];
+			 x = abs ((int)latitude [ent->chrom [i]] - (int)latitude [ent->chrom [i+1]]);
+			 y = abs ((int)longitude [ent->chrom [i]] - (int)longitude [ent->chrom [i+1]]);
 			 sum += sqrt (x*x+y*y);
 		}
-	  x = latitude [ent->chrom [ent->length-1]] - latitude [ent->chrom [0]];
-	  y = longitude [ent->chrom [ent->length-1]] - longitude [ent->chrom [0]];
+	  x = abs ((int)latitude [ent->chrom [ent->length-1]] - (int)latitude [ent->chrom [0]]);
+	  y = abs ((int)longitude [ent->chrom [ent->length-1]] - (int)longitude [ent->chrom [0]]);
 	  sum += sqrt (x*x+y*y);
 	 //
 	 	ent->fit = (int) 1/sum;
