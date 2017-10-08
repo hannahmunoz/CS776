@@ -47,6 +47,7 @@ void Individual::init(int len, vector <int> &dataset, vector <float> &latitude, 
 		cout << this->chrom[i] << " ";
 	}
 	cout << endl;
+
 }
 
 

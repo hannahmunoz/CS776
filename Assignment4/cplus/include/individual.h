@@ -36,7 +36,7 @@ namespace ga {
 
 		friend std::ostream &operator<<(std::ostream &output, const Individual &ip){
 			for(int i = 0; i < ip.length; i++){
-				output << ip.chrom[i];
+				output << ip.chrom[i] << " ";
 			}
 			output << " " ; //std::endl;
 

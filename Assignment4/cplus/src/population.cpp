@@ -134,22 +134,38 @@ void Population::halve(Population *child, int start, int end){
 void Population::xoverAndMutate(Individual *p1, Individual *p2, Individual *c1, Individual *c2){
 	//int nPoints = 2; we are doing two point crossover
 
-	// std::cout << "Crossover parents" << std::endl;
-	// std::cout << *p1;
-	// std::cout << *p2;
+	 std::cout << "Crossover parents" << std::endl;
+	 std::cout << *p1;
+	 std::cout << *p2;
+
 	for(int i = 0; i < options.chromLength; i++){ //First copy
 		c1->chrom[i] = p1->chrom[i];
 		c2->chrom[i] = p2->chrom[i];
 	}
+
 	if(flip(options.px)){ // if prob, then cross/exchange bits
 		twoPoint(p1, p2, c1, c2);
 	}
 
-	// std::cout << "Crossover children" << std::endl;
-	// std::cout << *c1;
-	// std::cout << *c2;
-	c1->mutate(options.pm);
-	c2->mutate(options.pm);
+	 std::cout << "Crossover children" << std::endl;
+	 std::cout << *c1;
+	 std::cout << *c2;
+	 
+	 bool check = false;
+	 for (int i = 0; i < options.chromLength; i++){
+		 for (int j = 0; j < options.chromLength; j++){
+			 if (i!=j){
+			 		if (	c1->chrom[i] == c1->chrom[j]){
+						check = true;
+					}
+				}
+		 }
+	 }
+	 std::cout << "check: " <<check;
+  // std::cout << *c2
+	 std::cout << std::endl << std::endl;
+	//c1->mutate(options.pm);
+	//c2->mutate(options.pm);
 }
 
 void Population::twoPoint(Individual *p1, Individual *p2, Individual *c1, Individual *c2){ //not debugged
@@ -157,11 +173,38 @@ void Population::twoPoint(Individual *p1, Individual *p2, Individual *c1, Indivi
 	int t2 = intInRange(0, options.chromLength);
 	int xp1 = std::min(t1, t2);
 	int xp2 = std::max(t1, t2);
-
 	for(int i = xp1; i < xp2; i++){
 		c1->chrom[i] = p2->chrom[i];
 		c2->chrom[i] = p1->chrom[i];
 	}
+	for (int k = 0; k < options.chromLength; k++){
+		for (int j = xp1; j < xp2; j++){
+			if (j != k){
+				if (c1->chrom[j] == c1->chrom[k]){
+					if (c1->chrom[j] != p1->chrom[j]){
+						//if (c1->chrom[j] != p1->chrom[j]){
+						//std::cout <<c1->chrom[j]  << " "<< c1->chrom[k] <<"			";
+						c1->chrom[j] = p1->chrom[j];
+						//std::cout <<c1->chrom[j]  << " "<< c1->chrom[k] <<std::endl;
+						k = 0;
+						j = 0;
+				}
+			}
+			if (c2->chrom[j] == c2->chrom[k]){
+				if (c2->chrom[j] != p2->chrom[j]){
+					//if (c1->chrom[j] != p1->chrom[j]){
+					//std::cout <<c1->chrom[j]  << " "<< c1->chrom[k] <<"			";
+					c2->chrom[j] = p2->chrom[j];
+					//std::cout <<c1->chrom[j]  << " "<< c1->chrom[k] <<std::endl;
+					k = 0;
+					j = 0;
+			}
+		}
+			}
+		}
+
+	}
+
 }
 
 void Population::ux(Individual *p1, Individual *p2, Individual *c1, Individual *c2){
