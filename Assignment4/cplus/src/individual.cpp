@@ -44,18 +44,20 @@ void Individual::init(int len, vector <int> &dataset, vector <float> &latitude, 
 		}
 		this->chrom[i] = temp;
 		marker [temp] = 1;
-		cout << this->chrom[i] << " ";
+	//	cout << this->chrom[i] << " ";
 	}
-	cout << endl;
-
+//	cout << endl;
 }
 
 
 
-void Individual::mutate(float prob){
+void Individual::mutate(float prob, int length){
 	for(int i = 0; i < length; i++){
-		if(flip(prob) == 1)
-			chrom[i] = 1 - chrom[i];
+		if(flip(prob) == 1){
+			int x = intInRange(0, length);
+			chrom[i] = chrom[x];
+			chrom[x] = chrom[i];
+		}
 	}
 }
 

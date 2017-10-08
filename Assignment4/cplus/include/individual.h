@@ -32,7 +32,7 @@ namespace ga {
 		}
 		void copy(Individual *i);
 		void init(int len, std::vector <int> &dataset, std::vector <float> &latitude, std::vector <float> &longitude);
-		void mutate(float prob);
+		void mutate(float prob, int length);
 
 		friend std::ostream &operator<<(std::ostream &output, const Individual &ip){
 			for(int i = 0; i < ip.length; i++){
