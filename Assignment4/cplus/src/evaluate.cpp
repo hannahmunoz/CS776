@@ -35,6 +35,17 @@ void evaluate(ga::Individual *ent){
 
 }
 
+void euclideanDistance(ga::Individual *ent, std::vector <float> latitude, std::vector <float> longitude){
+	double sum = 0;
+		for (int i = 0; i < ent->length-1; i++){
+			int x = latitude [ent->chrom [i]] - latitude [ent->chrom [i+1]];
+			int y = longitude [ent->chrom [i]] - longitude [ent->chrom [i+1]];
+			sum += sqrt (x*x+y*y);
+		}
+		ent->fit = 1/sum;
+		std::cout << 1/sum << std::endl;
+}
+
 double decode(int * chrom, int start, int end){
   double prod = 0;
   for (int i = start; i < end; i++){

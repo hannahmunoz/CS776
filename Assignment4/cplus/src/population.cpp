@@ -225,7 +225,8 @@ void Population::eval(int start, int end){
 	assert(start >= 0 && end >= start);
 	for(int i = start; i < end ; i++){
 	  //evaluate(pop[i]);
-	  xSquared(pop[i]);
+	  //xSquared(pop[i]);
+		euclideanDistance (pop[i], options.latitude, options.longitude);
 	}
 }
 
