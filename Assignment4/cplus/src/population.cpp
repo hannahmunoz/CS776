@@ -227,6 +227,7 @@ void Population::eval(int start, int end){
 	  //evaluate(pop[i]);
 	  //xSquared(pop[i]);
 		euclideanDistance (pop[i], options.latitude, options.longitude);
+		//euclideanDistanceGeo (pop[i], options.latitude, options.longitude);
 	}
 }
 

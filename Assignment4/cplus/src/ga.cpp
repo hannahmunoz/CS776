@@ -124,7 +124,7 @@ void GA::configure(){
 			ifs >> j;
 			options.longitude.push_back (j);
 		}
- options.chromLength++;
+// options.chromLength++;
 	}
 	ifs.close();
 }
@@ -135,9 +135,9 @@ void GA::setupOptions(int argc, char *argv[]){
 	options.infile = string("infile");
 	options.outfile = string("outfile");// append randomseed to output file names
 
-	options.popSize = 40;
+	options.popSize = 100;
 	options.chromLength = 10;
-	options.maxgens = 80;
+	options.maxgens = 200;
 	options.px = 0.7f;
 	options.pm = 0.001f;
 	options.scaler = 1.05;

@@ -14,6 +14,7 @@
 
 void evaluate(ga::Individual *ent);
 void euclideanDistance(ga::Individual *ent, std::vector <float> latitude, std::vector <float> longitude);
+void euclideanDistanceGeo (ga::Individual *ent, std::vector <float> latitude, std::vector <float> longitude);
 void xSquared(ga::Individual *ent);
 void convertToString(int *vec, int size, char *chrom);
 #endif /* EVALUATE_H_ */

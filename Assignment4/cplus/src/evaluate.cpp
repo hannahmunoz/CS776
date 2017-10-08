@@ -39,13 +39,31 @@ void euclideanDistance(ga::Individual *ent, std::vector <float> latitude, std::v
 	double sum = 0;
 	double x, y;
 		for (int i = 0; i < ent->length-1; i++){
-			x = latitude [ent->chrom [i]] - latitude [ent->chrom [i+1]];
-			y = longitude [ent->chrom [i]] - longitude [ent->chrom [i+1]];
-			sum += sqrt (x*x+y*y);
+			 x = latitude [ent->chrom [i]] - latitude [ent->chrom [i+1]];
+			 y = longitude [ent->chrom [i]] - longitude [ent->chrom [i+1]];
+			 sum += sqrt (x*x+y*y);
 		}
-	 x = latitude [ent->chrom [ent->length-1]] - latitude [ent->chrom [0]];
-	 y = longitude [ent->chrom [ent->length-1]] - longitude [ent->chrom [0]];
-	 sum += sqrt (x*x+y*y);
+	  x = latitude [ent->chrom [ent->length-1]] - latitude [ent->chrom [0]];
+	  y = longitude [ent->chrom [ent->length-1]] - longitude [ent->chrom [0]];
+	  sum += sqrt (x*x+y*y);
+	 //
+	 	ent->fit = (int) 1/sum;
+		//std::cout << 1/sum << std::endl;
+}
+
+void euclideanDistanceGeo(ga::Individual *ent, std::vector <float> latitude, std::vector <float> longitude){
+	double sum = 0;
+	float q1, q2, q3;
+		for (int i = 0; i < ent->length-1; i++){
+			q1 = cos (longitude [ent->chrom [i]] - longitude [ent->chrom [i+1]]);
+			q2 = cos(latitude [ent->chrom [i]] - latitude [ent->chrom [i+1]]);
+			q3 = cos(latitude [ent->chrom [i]] + latitude [ent->chrom [i+1]]);
+			sum += (int)(6378.388 * acos(0.5 * ((1+q1)*q2- (1-q1)*q3))+1);
+		}
+		q1 = cos (longitude [ent->chrom [ent->length-1]] - longitude [ent->chrom [0]]);
+		q2 = cos(latitude [ent->chrom [ent->length-1]] - latitude [ent->chrom [0]]);
+		q3 = cos(latitude [ent->chrom [ent->length-1]] + latitude [ent->chrom [0]]);
+		sum += (6378.388 * acos(0.5 * ((1+q1)*q2- (1-q1)*q3))+1);
 
 		ent->fit = 1/sum;
 		//std::cout << 1/sum << std::endl;
