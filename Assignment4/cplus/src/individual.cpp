@@ -54,9 +54,10 @@ void Individual::init(int len, vector <int> &dataset, vector <float> &latitude, 
 void Individual::mutate(float prob, int length){
 	for(int i = 0; i < length; i++){
 		if(flip(prob) == 1){
-			int x = intInRange(0, length);
+			int x = intInRange(0, length+1);
+			int temp = chrom[i];
 			chrom[i] = chrom[x];
-			chrom[x] = chrom[i];
+			chrom[x] = temp;
 		}
 	}
 }
