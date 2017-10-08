@@ -37,8 +37,8 @@ GA::GA(int argc, char *argv[]){
 	srandom(options.randomSeed);
 	ofstream ofs(options.outfile, std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
-	ofstream pofs(options.phenotypeFile, std::ofstream::out | std::ofstream::trunc);
-	pofs.close();
+	//ofstream pofs(options.phenotypeFile, std::ofstream::out | std::ofstream::trunc);
+	//pofs.close();
 	maxFitGen = 0;
 	this->bestIndividualSoFar = new Individual(options.chromLength);
 	bestFitnessSoFar = -1;
@@ -88,11 +88,11 @@ void GA::updateProgress(unsigned int gen, Population *p){
     maxFitGen = gen;
     bestIndividualSoFar->copy(p->pop[p->maxi]);
 
-    char printbuf[1024];
+    //char printbuf[1024];
 		string chromString;
     chromToString(bestIndividualSoFar->chrom, bestIndividualSoFar->length, chromString);
-    sprintf(printbuf, "%4i \t %f \t %s\n", maxFitGen, bestFitnessSoFar, chromString.c_str());
-    writeBufToFile(printbuf, options.phenotypeFile);
+    //sprintf(printbuf, "%4i \t %f \t %s\n", maxFitGen, bestFitnessSoFar, chromString.c_str());
+    //writeBufToFile(printbuf, options.phenotypeFile);
   }
 
 }
@@ -135,10 +135,10 @@ void GA::setupOptions(int argc, char *argv[]){
 	options.infile = string("infile");
 	options.outfile = string("outfile");// append randomseed to output file names
 
-	options.popSize = 100;
+	options.popSize = 80;
 	options.chromLength = 10;
-	options.maxgens = 200;
-	options.px = 0.7f;
+	options.maxgens = 500;
+	options.px = .7f;
 	options.pm = 0.001f;
 	options.scaler = 1.05;
 	options.lambda = 2;

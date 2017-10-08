@@ -254,7 +254,7 @@ void Population::report(int gen){
 	char printbuf[1024];
 	sprintf(printbuf, "%4i \t %f \t %f \t %f\n ", gen, min, avg, max);
 	writeBufToFile(printbuf, options.outfile);
-	std::cout << printbuf;// << std::endl;
+	//std::cout << printbuf;// << std::endl;
 }
 
 void Population::printPop(int start, int end){

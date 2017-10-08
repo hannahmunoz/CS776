@@ -4,11 +4,11 @@ iter=0
 make
 
 
-mainfile="burma14"
-output="$mainfile/output$iter"
+mainfile="eil51"
+output="./Tours/$mainfile/output"
 
 while [ $iter -le 30 ];
   do
-    ./ga "$mainfile.bin" $output $iter
+    ./ga "./Tours/$mainfile.bin" $output$iter $iter
     let iter=iter+1
   done

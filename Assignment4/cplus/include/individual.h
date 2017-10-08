@@ -40,7 +40,7 @@ namespace ga {
 			}
 			output << " " ; //std::endl;
 
-			output << "Fitness: " << ip.fit << /*" Scaled Fitness: " << ip.scaledFit << */ std::endl;
+			output << "Fitness: " << 1/ip.fit << /*" Scaled Fitness: " << ip.scaledFit << */ std::endl;
 			return output;
 		}
 	};
