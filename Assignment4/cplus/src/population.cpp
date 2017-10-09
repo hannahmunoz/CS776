@@ -62,8 +62,8 @@ void Population::generation(Population *child){
 
 	child->eval(0, options.popSize);
 
-	//std::cout << "Children" << std::endl;
-	//	child->printPop(0, options.popSize);
+	// std::cout << "Children" << std::endl;
+	// 	child->printPop(0, options.popSize);
 
 
 }
