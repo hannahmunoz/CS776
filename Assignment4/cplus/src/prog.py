@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-File = './Tours/lin105'
+File = './Tours/berlin52'
 
 for i in range(len(list(open(os.path.join(File,'output0'))))-1):
     minimum = 0

@@ -43,14 +43,23 @@ void Population::initialize(){
 
 void Population::generation(Population *child){
 
-	int pi1, pi2, ci1, ci2;
+	int pi1, pi2, po1, po2, ci1, ci2;
 	Individual *p1, *p2, *c1, *c2;
 	//std::cout << "Parents" << std::endl;
 	//printPop(0, options.popSize);
 
 	for(int i = 0; i < options.popSize; i += 2){
 		pi1 = proportionalSelector();
+		po1 = proportionalSelector();
 		pi2 = proportionalSelector();
+		po2 = proportionalSelector();
+
+		if (pop[pi1]->fit < pop[po1]->fit ){
+			pi1 = po1;
+		}
+		if (pop[pi2]->fit < pop[po2]->fit){
+			pi2 = po2;
+		}
 		ci1 = i;
 		ci2 = i + 1;
 
