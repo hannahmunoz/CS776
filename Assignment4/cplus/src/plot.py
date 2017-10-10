@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-File = './Tours/eil51'
-title = "eil51"
+File = './Tours/berlin52'
+title = "berlin52"
 
 plt.ylabel('Run')
 plt.ylabel('Fitness')

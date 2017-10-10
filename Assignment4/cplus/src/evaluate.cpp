@@ -47,7 +47,8 @@ void euclideanDistance(ga::Individual *ent, std::vector <float> latitude, std::v
 	  y = abs ((int)longitude [ent->chrom [ent->length-1]] - (int)longitude [ent->chrom [0]]);
 	  sum += sqrt (x*x+y*y);
 	 //
-	 	ent->fit = (int) 1/sum;
+	 	ent->fit = (int) 1000000 -sum;
+		//ent->fit = (int) 1/sum;
 		//std::cout << 1/sum << std::endl;
 }
 

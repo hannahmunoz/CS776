@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import os
 
 
-File = './Tours/lin105'
-optimum = 14379
+File = './Tours/eil51'
+optimum = 426
 length = len(list(open(os.path.join(File,'output1'))))-2
 std = 0
 best = 0
