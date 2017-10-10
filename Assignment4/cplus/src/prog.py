@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import os
 
 
-File = './Tours/berlin52'
-optimum = 7542
-length = len(list(open(os.path.join(File,'output0'))))-2
+File = './Tours/lin105'
+optimum = 14379
+length = len(list(open(os.path.join(File,'output1'))))-2
 std = 0
 best = 0
-for i in range(len(list(open(os.path.join(File,'output0'))))-1):
+for i in range(len(list(open(os.path.join(File,'output1'))))-1):
     minimum = 0
     average = 0
     maximum = 0
