@@ -60,6 +60,24 @@ void Population::generation(Population *child){
 		if (pop[pi2]->fit < pop[po2]->fit){
 			pi2 = po2;
 		}
+	   	po1 = proportionalSelector();
+			po2 = proportionalSelector();
+			if (pop[pi1]->fit < pop[po1]->fit ){
+				pi1 = po1;
+			}
+			if (pop[pi2]->fit < pop[po2]->fit){
+				pi2 = po2;
+			}
+
+			/*po1 = proportionalSelector();
+			po2 = proportionalSelector();
+			if (pop[pi1]->fit < pop[po1]->fit ){
+				pi1 = po1;
+			}
+			if (pop[pi2]->fit < pop[po2]->fit){
+				pi2 = po2;
+			}*/
+
 		ci1 = i;
 		ci2 = i + 1;
 

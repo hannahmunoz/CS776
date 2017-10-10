@@ -5,11 +5,15 @@ import os
 
 
 File = './Tours/berlin52'
-
+optimum = 7542
+length = len(list(open(os.path.join(File,'output0'))))-2
+std = 0
+best = 0
 for i in range(len(list(open(os.path.join(File,'output0'))))-1):
     minimum = 0
     average = 0
     maximum = 0
+
     run = 0
     for sf in os.listdir (File):
         if sf != 'Averages':
@@ -21,6 +25,10 @@ for i in range(len(list(open(os.path.join(File,'output0'))))-1):
                 average  += data[i,2]
                 maximum  += data[i,3]
                 run +=1
+
+                if (i == length):
+                    best += 1/ data[length,3]
+                    std += (1/data[length,3] - optimum) ** 2
     #
     #minimum = minimum/run
     average = average/run
@@ -35,22 +43,30 @@ for i in range(len(list(open(os.path.join(File,'output0'))))-1):
     fmin.write ('%f' %maximum)
     fmin.write ('\n')
 
-length = len(list(open(os.path.join(File,'output0'))))-2
+std = (std ** (0.5))/29
+best = best/30
+#print (best)
+#print (std)
+print ("optimum: ")
+o = optimum/(best+std)
+print (o)
+
 
 relirun = 0;
 for sf in os.listdir (File):
         if sf != 'Averages':
             data = np.loadtxt(os.path.join (File, sf))
-            if (data[length, 3] >=  maximum):
+            if (1/data[length, 3] <= optimum * (o+1)):
                 relirun += 1
 print relirun
+#print (optimum * (o+1))
 
 speedrunTotal = 0;
 for sf in os.listdir (File):
     for i in range(len(list(open(os.path.join(File,sf))))-1):
         if sf != 'Averages':
             data = np.loadtxt(os.path.join (File, sf))
-            if (data[i, 3] >=  maximum):
+            if (1/data[i, 3] <=  optimum * (o+1)):
                 speedrunTotal += i
                 break
 print speedrunTotal/30

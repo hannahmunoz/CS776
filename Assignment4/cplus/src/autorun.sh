@@ -4,7 +4,7 @@ iter=0
 make
 
 
-mainfile="lin315"
+mainfile="lin105"
 output="./Tours/$mainfile/output"
 
 while [ $iter -le 30 ];
